@@ -94,7 +94,8 @@ for (i_algo, algo_name) in enumerate(algo_names):
         if i_try % 5 == 0:
             print(f"trial {i_try}, stopping time = {tau}")
             total_time = time.time() - start_time
-            print(f"it takes {total_time/(i_try+1):0.4f} per trial")
+            print(f"it takes {total_time}s")
+            print(f"it takes {total_time/(i_try+1):0.4f}s per trial")
             np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
 
 np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
