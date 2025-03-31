@@ -1095,13 +1095,13 @@ def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
         # table.update('i_t', t, i_t)
         # table.update('min_W_n', t, min_W_n)
 
-        # if algo.success_yes:
-        #     b_stopped = True
-        #     break
-        
-        if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
+        if algo.success_yes:
             b_stopped = True
             break
+        
+        # if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
+        #     b_stopped = True
+        #     break
 
     # if (b_stopped == False):
     #     table.update('did_not_stop', 0, True)
