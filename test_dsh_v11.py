@@ -30,10 +30,12 @@ opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
 
-K = 16
+version = 'v11'
+K = 4
 mu_opt = 1.0
-mu_sub = 1.0 - 0.2
+mu_sub = 1.0 - 0.1
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
+
 
 def algo_factory_fc(algo_name, K, seed, sigma_sq, beta, delta):
     if algo_name == 'fcsh-2':
@@ -99,9 +101,9 @@ for (i_algo, algo_name) in enumerate(algo_names):
             total_time = time.time() - start_time
             print(f"it takes {total_time:0.4f}s")
             print(f"it takes {total_time/(i_try+1):0.4f}s per trial")
-            np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
+            np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}_{version}.txt", all_stopping_times)
 
-np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
+np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}_{version}.txt", all_stopping_times)
 
 
 # #--------
