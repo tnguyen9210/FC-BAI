@@ -79,26 +79,26 @@ K = len(opt.mu)
 n_pulls = np.zeros((len(algo_names), opt.n_try, K))
 for (i_algo, algo_name) in enumerate(algo_names):
     start_time = time.time()
+    all_stopping_times = []
     for i_try in range(opt.n_try):
         env = Gaussian(opt.mu, opt.sigma_sq, seed=seed_ary[i_try])
         algo = algo_factory_fc(algo_name, K, opt.algoseed + i_try, opt.sigma_sq, opt.beta, opt.delta)
         # res = run_bandit_pe(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
-        res = run_bandit_lucb(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
+        tau, is_stop = run_bandit_lucb(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
 
-        ext = res.extract()
+        # ext = res.extract()
+        all_stopping_times.append(tau)
 
-        tab.update('tau', (i_algo, i_try), ext.tau[0])
-        n_pulls[i_algo, i_try, :] = ext.n_pulls[0]
+        # tab.update('tau', (i_algo, i_try), ext.tau[0])
+        # n_pulls[i_algo, i_try, :] = ext.n_pulls[0]
         if i_try % 5 == 0:
             print(f"trial {i_try}, stopping time = {ext.tau[0]}")
             total_time = time.time() - start_time
             print(f"it takes {total_time/(i_try+1):0.4f} per trial")
+            np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
 
-        tab = tab.extract()
-        all_stopping_times = np.array(tab.tau)
-        np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
+np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
 
-        
 
 # #--------
 # printExpr("opt")

@@ -1067,7 +1067,7 @@ def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
         # hatmus = algo.get_empirical_means()
         # min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
         # logging.debug(f"min_W_n = {min_W_n}")
-        table.update('i_t', t, i_t)
+        # table.update('i_t', t, i_t)
         # table.update('min_W_n', t, min_W_n)
 
         if algo.success_yes:
@@ -1078,13 +1078,14 @@ def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
         #     b_stopped = True
         #     break
 
-    if (b_stopped == False):
-        table.update('did_not_stop', 0, True)
-    table.update('i_best', 0, algo.get_best_arm())
-    table.update('tau', 0, t+1)
-    table.update('n_pulls', 0, algo.n_pulls.tolist())
+    # if (b_stopped == False):
+    #     table.update('did_not_stop', 0, True)
+        
+    # table.update('i_best', 0, algo.get_best_arm())
+    # table.update('tau', 0, t+1)
+    # table.update('n_pulls', 0, algo.n_pulls.tolist())
     
-    return table
+    return t+1, 
 
 def algo_factory(algo_name, env, delta, T):
     if (algo_name == 'uniform'):

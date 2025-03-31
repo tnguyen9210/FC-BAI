@@ -84,10 +84,10 @@ for (i_algo, algo_name) in enumerate(algo_names):
         env = Gaussian(opt.mu, opt.sigma_sq, seed=seed_ary[i_try])
         algo = algo_factory_fc(algo_name, K, opt.algoseed + i_try, opt.sigma_sq, opt.beta, opt.delta)
         # res = run_bandit_pe(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
-        res = run_bandit_lucb(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
+        tau, is_stop = run_bandit_lucb(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
 
-        ext = res.extract()
-        all_stopping_times.append(ext.tau[0])
+        # ext = res.extract()
+        all_stopping_times.append(tau)
 
         # tab.update('tau', (i_algo, i_try), ext.tau[0])
         # n_pulls[i_algo, i_try, :] = ext.n_pulls[0]
@@ -98,6 +98,7 @@ for (i_algo, algo_name) in enumerate(algo_names):
             np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
 
 np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
+
 
 # #--------
 # printExpr("opt")
