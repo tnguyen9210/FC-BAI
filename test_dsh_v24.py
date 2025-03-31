@@ -13,7 +13,7 @@ np.set_printoptions(precision=4)
 
 
 opt = SimpleNamespace()
-opt.n_try = 10
+opt.n_try = 1000
 #opt.mu = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 1.0]
 opt.mu = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 1.0]
 
@@ -30,13 +30,22 @@ opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
 
-opt.mu = [1.0, 0.9, 0.9, 0.9]
+version = 'v24'
+K = 16
+mu_opt = 1.0
+mu_sub = 1.0 - 0.4
+opt.mu = [mu_opt] + [mu_sub]*(K-1)
+
 
 def algo_factory_fc(algo_name, K, seed, sigma_sq, beta, delta):
     if algo_name == 'fcsh-2':
         algo = FCDoublingSequentialHalving(K, seed=seed, factor=2.0)
     elif algo_name == 'fcsh-1.5':
         algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.5)
+    elif algo_name == 'fcsh-1.1':
+        algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.1, divisor=2)
+    elif algo_name == 'fcsh-1.05':
+        algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.05, divisor=2)
     elif algo_name == 'fcsh-1.01':
         algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.01, divisor=2)
     elif algo_name == 'fcsh-1.01-d1.01':
@@ -62,8 +71,8 @@ def algo_factory_fc(algo_name, K, seed, sigma_sq, beta, delta):
 #algo_names = ['ucb', 'sh', 'sh-reuse']
 #algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
 algo_names = ['tstci', 'fcsh-1.01', 'fcsh-1.01-d1.01', 'fcsh-1.01-d3', 'fcsh-1.01-d4', 'fcsh-1.01-d5']
-algo_names = ['fcsh-1.01']
-algo_names = ['lucb']
+algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
+# algo_names = ['lucb']
 #algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01', 'fcsh-1.01-d3', 'fcsh-1.01-d4']
 opt.algo_names = algo_names
 
@@ -78,28 +87,29 @@ print(f"num_trials = {opt.n_try}")
 K = len(opt.mu)
 n_pulls = np.zeros((len(algo_names), opt.n_try, K))
 for (i_algo, algo_name) in enumerate(algo_names):
+    print(f"\n-> algo_name = {algo_name}")
     start_time = time.time()
     all_stopping_times = []
     for i_try in range(opt.n_try):
         env = Gaussian(opt.mu, opt.sigma_sq, seed=seed_ary[i_try])
         algo = algo_factory_fc(algo_name, K, opt.algoseed + i_try, opt.sigma_sq, opt.beta, opt.delta)
-        # res = run_bandit_pe(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
-        res = run_bandit_lucb(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
+        tau, is_stop = run_bandit_pe(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
+        # tau, is_stop = run_bandit_lucb(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
 
-        ext = res.extract()
-        all_stopping_times.append(ext.tau[0])
+        # ext = res.extract()
+        all_stopping_times.append(tau)
 
         # tab.update('tau', (i_algo, i_try), ext.tau[0])
         # n_pulls[i_algo, i_try, :] = ext.n_pulls[0]
-        if i_try % 5 == 0:
-            print(f"trial {i_try}, stopping time = {ext.tau[0]}")
+        if (i_try == 0) or ((i_try + 1) % 50 == 0):
+            print(f"trial {i_try}, stopping time = {tau}")
             total_time = time.time() - start_time
             print(f"it takes {total_time:0.4f}s")
             print(f"it takes {total_time/(i_try+1):0.4f}s per trial")
-            np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
+            np.savetxt(f"results/all_stopping_times_{algo_name}_{i_try+1}_{version}.txt", all_stopping_times)
 
-np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
-        
+    np.savetxt(f"results/all_stopping_times_{algo_name}_{i_try+1}_{version}.txt", all_stopping_times)
+
 
 # #--------
 # printExpr("opt")
