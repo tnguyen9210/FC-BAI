@@ -47,50 +47,9 @@ color_list = ['skyblue','g','r', 'y']
 
 # plt.show()
 
+version = "v11"
 
-filename = "results/all_stopping_times_fcsh-1.01_1000_v41.txt"
-all_stopping_times = np.loadtxt(filename)
-print(len(all_stopping_times))
-print(f"max = {np.max(all_stopping_times):0.4f}")
-print(f"min = {np.min(all_stopping_times):0.4f}")
-kurt = kurtosis(all_stopping_times, fisher=False)
-print(f"kurt = {kurt}")
-# hill = hill_estimator(all_stopping_times, 5)
-# print(f"hill = {hill}")
-
-plt.hist(
-    all_stopping_times, bins=50, color=color_list[0],
-    alpha=0.5, edgecolor=color_list[0], label="FCDSH-1.01", lw=3)
-
-filename = "results/all_stopping_times_fcsh-1.1_1000_v41.txt"
-all_stopping_times = np.loadtxt(filename)
-print(len(all_stopping_times))
-print(f"max = {np.max(all_stopping_times):0.4f}")
-print(f"min = {np.min(all_stopping_times):0.4f}")
-kurt = kurtosis(all_stopping_times, fisher=False)
-print(f"kurt = {kurt}")
-# hill = hill_estimator(all_stopping_times, 5)
-# print(f"hill = {hill}")
-
-plt.hist(
-    all_stopping_times, bins=50, color=color_list[1],
-    alpha=0.5, edgecolor=color_list[1], label="FCDSH-1.1", lw=3)
-
-filename = "results/all_stopping_times_fcsh-2_1000_v41.txt"
-all_stopping_times = np.loadtxt(filename)
-print(len(all_stopping_times))
-print(f"max = {np.max(all_stopping_times):0.4f}")
-print(f"min = {np.min(all_stopping_times):0.4f}")
-kurt = kurtosis(all_stopping_times, fisher=False)
-print(f"kurt = {kurt}")
-# hill = hill_estimator(all_stopping_times, 5)
-# print(f"hill = {hill}")
-
-plt.hist(
-    all_stopping_times, bins=50, color=color_list[2],
-    alpha=0.5, edgecolor=color_list[2], label="FCDSH-2", lw=3)
-
-filename = "results/all_stopping_times_lucb_1000_v41.txt"
+filename = f"results/all_stopping_times_lucb_1000_{version}.txt"
 all_stopping_times = np.loadtxt(filename)
 print(len(all_stopping_times))
 print(f"max = {np.max(all_stopping_times):0.4f}")
@@ -104,11 +63,55 @@ plt.hist(
     all_stopping_times, bins=50, color=color_list[3],
     alpha=0.5, edgecolor=color_list[3], label="LUCB", lw=3)
 
+
+filename = f"results/all_stopping_times_fcsh-1.01_1000_{version}.txt"
+all_stopping_times = np.loadtxt(filename)
+print(len(all_stopping_times))
+print(f"max = {np.max(all_stopping_times):0.4f}")
+print(f"min = {np.min(all_stopping_times):0.4f}")
+kurt = kurtosis(all_stopping_times, fisher=False)
+print(f"kurt = {kurt}")
+# hill = hill_estimator(all_stopping_times, 5)
+# print(f"hill = {hill}")
+
+plt.hist(
+    all_stopping_times, bins=50, color=color_list[0],
+    alpha=0.5, edgecolor=color_list[0], label="FCDSH-1.01", lw=3)
+
+filename = f"results/all_stopping_times_fcsh-1.1_1000_{version}.txt"
+all_stopping_times = np.loadtxt(filename)
+print(len(all_stopping_times))
+print(f"max = {np.max(all_stopping_times):0.4f}")
+print(f"min = {np.min(all_stopping_times):0.4f}")
+kurt = kurtosis(all_stopping_times, fisher=False)
+print(f"kurt = {kurt}")
+# hill = hill_estimator(all_stopping_times, 5)
+# print(f"hill = {hill}")
+
+plt.hist(
+    all_stopping_times, bins=50, color=color_list[1],
+    alpha=0.5, edgecolor=color_list[1], label="FCDSH-1.1", lw=3)
+
+filename = f"results/all_stopping_times_fcsh-2_1000_{version}.txt"
+all_stopping_times = np.loadtxt(filename)
+print(len(all_stopping_times))
+print(f"max = {np.max(all_stopping_times):0.4f}")
+print(f"min = {np.min(all_stopping_times):0.4f}")
+kurt = kurtosis(all_stopping_times, fisher=False)
+print(f"kurt = {kurt}")
+# hill = hill_estimator(all_stopping_times, 5)
+# print(f"hill = {hill}")
+
+plt.hist(
+    all_stopping_times, bins=50, color=color_list[2],
+    alpha=0.5, edgecolor=color_list[2], label="FCDSH-2", lw=3)
+
+
 plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('Number of Trials', fontsize=13)
 
 plt.legend(fontsize=15)
-plt.savefig(f"fc_dsh_compare.png", format='png')
+plt.savefig(f"fc_dsh_compare_{version}.png", format='png')
 
 plt.show()
 
