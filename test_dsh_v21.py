@@ -30,7 +30,7 @@ opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
 
-version = 'v11'
+version = 'v21'
 K = 4
 mu_opt = 1.0
 mu_sub = 1.0 - 0.1
@@ -71,7 +71,7 @@ def algo_factory_fc(algo_name, K, seed, sigma_sq, beta, delta):
 #algo_names = ['ucb', 'sh', 'sh-reuse']
 #algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
 algo_names = ['tstci', 'fcsh-1.01', 'fcsh-1.01-d1.01', 'fcsh-1.01-d3', 'fcsh-1.01-d4', 'fcsh-1.01-d5']
-algo_names = ['fcsh-1.01']
+algo_names = ['fcsh-1.1']
 # algo_names = ['lucb']
 #algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01', 'fcsh-1.01-d3', 'fcsh-1.01-d4']
 opt.algo_names = algo_names
