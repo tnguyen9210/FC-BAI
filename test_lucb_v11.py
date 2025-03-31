@@ -13,7 +13,7 @@ np.set_printoptions(precision=4)
 
 
 opt = SimpleNamespace()
-opt.n_try = 1000
+opt.n_try = 10
 #opt.mu = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 1.0]
 opt.mu = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 1.0]
 
@@ -89,23 +89,28 @@ for (i_algo, algo_name) in enumerate(algo_names):
 
         tab.update('tau', (i_algo, i_try), ext.tau[0])
         n_pulls[i_algo, i_try, :] = ext.n_pulls[0]
-        if i_try % 25 == 0:
+        if i_try % 5 == 0:
             print(f"trial {i_try}, stopping time = {ext.tau[0]}")
             total_time = time.time() - start_time
             print(f"it takes {total_time/(i_try+1):0.4f} per trial")
+
+        tab = tab.extract()
+        all_stopping_times = np.array(tab.tau)
+        np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
+
         
 
-#--------
-printExpr("opt")
-print("")
-print(tab)
-tab = tab.extract()
-print(tab)
-print(tab.tau.mean(1))
-print(tab.tau.std(1) / np.sqrt(opt.n_try))
+# #--------
+# printExpr("opt")
+# print("")
+# print(tab)
+# tab = tab.extract()
+# print(tab)
+# print(tab.tau.mean(1))
+# print(tab.tau.std(1) / np.sqrt(opt.n_try))
 
-all_stopping_times = np.array(tab.tau)
-np.savetxt(f"all_stopping_time_{algo_names[0]}.txt", all_stopping_times)
+# all_stopping_times = np.array(tab.tau)
+# np.savetxt(f"all_stopping_time_{algo_names[0]}.txt", all_stopping_times)
 
 # n_pulls = np.array(n_pulls)
 # print(n_pulls)
