@@ -13,7 +13,7 @@ np.set_printoptions(precision=4)
 
 
 opt = SimpleNamespace()
-opt.n_try = 10
+opt.n_try = 1000
 #opt.mu = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 1.0]
 opt.mu = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 1.0]
 
