@@ -83,7 +83,6 @@ tab = KjTable()
 
 print(f"mus = {opt.mu}")
 print(f"num_trials = {opt.n_try}")
-print(f"")
 
 K = len(opt.mu)
 n_pulls = np.zeros((len(algo_names), opt.n_try, K))
@@ -109,7 +108,7 @@ for (i_algo, algo_name) in enumerate(algo_names):
             print(f"it takes {total_time/(i_try+1):0.4f}s per trial")
             np.savetxt(f"results/all_stopping_time_{algo_name}_{i_try}_{version}.txt", all_stopping_times)
 
-    np.savetxt(f"results/all_stopping_time_{algo_names}_{i_try}_{version}.txt", all_stopping_times)
+    np.savetxt(f"results/all_stopping_time_{algo_name}_{i_try}_{version}.txt", all_stopping_times)
 
 
 # #--------
