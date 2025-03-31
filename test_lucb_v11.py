@@ -92,7 +92,7 @@ for (i_algo, algo_name) in enumerate(algo_names):
         # tab.update('tau', (i_algo, i_try), ext.tau[0])
         # n_pulls[i_algo, i_try, :] = ext.n_pulls[0]
         if i_try % 5 == 0:
-            print(f"trial {i_try}, stopping time = {ext.tau[0]}")
+            print(f"trial {i_try}, stopping time = {tau}")
             total_time = time.time() - start_time
             print(f"it takes {total_time/(i_try+1):0.4f} per trial")
             np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}.txt", all_stopping_times)
