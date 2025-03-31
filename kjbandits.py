@@ -1092,19 +1092,19 @@ def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
         if (t < env.K):
             continue
 
-        if algo.success_yes:
-            b_stopped = True
-            break
-        
-        # hatmus = algo.get_empirical_means()
-        # min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
-        # logging.debug(f"min_W_n = {min_W_n}")
-        # table.update('i_t', t, i_t)
-        # table.update('min_W_n', t, min_W_n)
-
-        # if (min_W_n > c_n_delta(t, delta = delta/(t**4), K = env.K)):
+        # if algo.success_yes:
         #     b_stopped = True
         #     break
+        
+        hatmus = algo.get_empirical_means()
+        min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
+        logging.debug(f"min_W_n = {min_W_n}")
+        table.update('i_t', t, i_t)
+        table.update('min_W_n', t, min_W_n)
+
+        if (min_W_n > c_n_delta(t, delta = delta/(t**2), K = env.K)):
+            b_stopped = True
+            break
 
     # if (b_stopped == False):
     #     table.update('did_not_stop', 0, True)
