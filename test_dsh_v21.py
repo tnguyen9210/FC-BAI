@@ -88,6 +88,7 @@ print(f"")
 K = len(opt.mu)
 n_pulls = np.zeros((len(algo_names), opt.n_try, K))
 for (i_algo, algo_name) in enumerate(algo_names):
+    print(f"\n-> algo_name = {algo_name}")
     start_time = time.time()
     all_stopping_times = []
     for i_try in range(opt.n_try):
