@@ -165,7 +165,7 @@ class Lucb(BanditAlg):
     def dev(n_pulls, delta, sig_sq, t):
         # numer = np.log(np.log(2*n_pulls)) + 0.72*np.log(5.2/delta)
         # return np.sqrt(sig_sq)*1.7*np.sqrt(numer/n_pulls)
-        logterm = np.log(1.25*t**4/delta)
+        logterm = np.log(1.25*t**2/delta)
         return np.sqrt(logterm/n_pulls/2)
 
     def next_arm(self):
@@ -1089,8 +1089,8 @@ def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
         if (t < env.K):
             continue
 
-        hatmus = algo.get_empirical_means()
-        min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
+        # hatmus = algo.get_empirical_means()
+        # min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
         # logging.debug(f"min_W_n = {min_W_n}")
         # table.update('i_t', t, i_t)
         # table.update('min_W_n', t, min_W_n)
