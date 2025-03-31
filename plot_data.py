@@ -48,7 +48,7 @@ color_list = ['skyblue','g','r']
 # plt.show()
 
 
-filename = "results/all_stopping_times_fcsh-1.01_150_v31.txt"
+filename = "results/all_stopping_times_lucb_1000_v41.txt"
 all_stopping_times = np.loadtxt(filename)
 print(len(all_stopping_times))
 print(f"max = {np.max(all_stopping_times):0.4f}")

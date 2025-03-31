@@ -13,7 +13,7 @@ np.set_printoptions(precision=4)
 
 
 opt = SimpleNamespace()
-opt.n_try = 1000
+opt.n_try = 10
 #opt.mu = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 1.0]
 opt.mu = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 1.0]
 
@@ -101,15 +101,16 @@ for (i_algo, algo_name) in enumerate(algo_names):
 
         # tab.update('tau', (i_algo, i_try), ext.tau[0])
         # n_pulls[i_algo, i_try, :] = ext.n_pulls[0]
-        if (i_try == 0) or ((i_try + 1) % 50 == 0):
+        if (i_try == 0) or ((i_try + 1) % 1 == 0):
             print(f"trial {i_try}, stopping time = {tau}")
             total_time = time.time() - start_time
             print(f"it takes {total_time:0.4f}s")
             print(f"it takes {total_time/(i_try+1):0.4f}s per trial")
-            np.savetxt(f"results/all_stopping_times_{algo_name}_{i_try+1}_{version}.txt", all_stopping_times)
+            # np.savetxt(f"results/all_stopping_times_{algo_name}_{i_try+1}_{version}.txt", all_stopping_times)
 
-    np.savetxt(f"results/all_stopping_times_{algo_name}_{i_try+1}_{version}.txt", all_stopping_times)
+    # np.savetxt(f"results/all_stopping_times_{algo_name}_{i_try+1}_{version}.txt", all_stopping_times)
 
+    print(all_stopping_times)
 
 # #--------
 # printExpr("opt")
