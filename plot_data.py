@@ -27,17 +27,40 @@ def hill_estimator(data, k):
 
 color_list = ['skyblue','g','r']
 
-filename = "results/all_stopping_time_fcsh-1.1_9_v21.txt"
+# filename = "results/all_stopping_time_fcsh-1.1_9_v21.txt"
+# all_stopping_times = np.loadtxt(filename)
+# print(len(all_stopping_times))
+# # kurt = kurtosis(all_stopping_times, fisher=False)
+# # print(f"kurt = {kurt}")
+# # hill = hill_estimator(all_stopping_times, 5)
+# # print(f"hill = {hill}")
+
+# plt.hist(
+#     all_stopping_times, bins=10, color=color_list[0],
+#     alpha=0.5, edgecolor=color_list[0], label="FC-DSH", lw=3)
+
+# plt.xlabel('Stopping time', fontsize=13)
+# plt.ylabel('Number of Trials', fontsize=13)
+
+# plt.legend(fontsize=15)
+# plt.savefig(f"fc_dsh.png", format='png')
+
+# plt.show()
+
+
+filename = "results/all_stopping_times_fcsh-1.01_150_v31.txt"
 all_stopping_times = np.loadtxt(filename)
 print(len(all_stopping_times))
-# kurt = kurtosis(all_stopping_times, fisher=False)
-# print(f"kurt = {kurt}")
-# hill = hill_estimator(all_stopping_times, 5)
-# print(f"hill = {hill}")
+print(f"max = {np.max(all_stopping_times):0.4f}")
+print(f"min = {np.min(all_stopping_times):0.4f}")
+kurt = kurtosis(all_stopping_times, fisher=False)
+print(f"kurt = {kurt}")
+hill = hill_estimator(all_stopping_times, 5)
+print(f"hill = {hill}")
 
 plt.hist(
-    all_stopping_times, bins=10, color=color_list[0],
-    alpha=0.5, edgecolor=color_list[0], label="FC-DSH", lw=3)
+    all_stopping_times, bins=50, color=color_list[0],
+    alpha=0.5, edgecolor=color_list[0], label="LUCB", lw=3)
 
 plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('Number of Trials', fontsize=13)
