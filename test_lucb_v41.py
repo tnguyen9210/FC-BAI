@@ -30,10 +30,10 @@ opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
 
-version = 'v44'
-K = 16
+version = 'v41'
+K = 4
 mu_opt = 1.0
-mu_sub = 1.0 - 0.4
+mu_sub = 1.0 - 0.1
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
 
 
