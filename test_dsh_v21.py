@@ -13,7 +13,7 @@ np.set_printoptions(precision=4)
 
 
 opt = SimpleNamespace()
-opt.n_try = 1000
+opt.n_try = 10
 #opt.mu = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 1.0]
 opt.mu = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 1.0]
 
@@ -71,7 +71,7 @@ def algo_factory_fc(algo_name, K, seed, sigma_sq, beta, delta):
 #algo_names = ['ucb', 'sh', 'sh-reuse']
 #algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
 algo_names = ['tstci', 'fcsh-1.01', 'fcsh-1.01-d1.01', 'fcsh-1.01-d3', 'fcsh-1.01-d4', 'fcsh-1.01-d5']
-algo_names = ['fcsh-1.01']
+algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 # algo_names = ['lucb']
 #algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01', 'fcsh-1.01-d3', 'fcsh-1.01-d4']
 opt.algo_names = algo_names
@@ -83,6 +83,7 @@ tab = KjTable()
 
 print(f"mus = {opt.mu}")
 print(f"num_trials = {opt.n_try}")
+print(f"")
 
 K = len(opt.mu)
 n_pulls = np.zeros((len(algo_names), opt.n_try, K))
@@ -105,9 +106,9 @@ for (i_algo, algo_name) in enumerate(algo_names):
             total_time = time.time() - start_time
             print(f"it takes {total_time:0.4f}s")
             print(f"it takes {total_time/(i_try+1):0.4f}s per trial")
-            np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}_{version}.txt", all_stopping_times)
+            np.savetxt(f"results/all_stopping_time_{algo_name}_{i_try}_{version}.txt", all_stopping_times)
 
-np.savetxt(f"results/all_stopping_time_{algo_names[0]}_{i_try}_{version}.txt", all_stopping_times)
+    np.savetxt(f"results/all_stopping_time_{algo_names}_{i_try}_{version}.txt", all_stopping_times)
 
 
 # #--------
