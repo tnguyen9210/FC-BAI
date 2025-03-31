@@ -86,7 +86,7 @@ for (i_algo, algo_name) in enumerate(algo_names):
     for i_try in range(opt.n_try):
         env = Gaussian(opt.mu, opt.sigma_sq, seed=seed_ary[i_try])
         algo = algo_factory_fc(algo_name, K, opt.algoseed + i_try, opt.sigma_sq, opt.beta, opt.delta)
-        res = run_bandit_pe(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
+        tau, is_stop = run_bandit_pe(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
         # tau, is_stop = run_bandit_lucb(algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
 
         # ext = res.extract()
