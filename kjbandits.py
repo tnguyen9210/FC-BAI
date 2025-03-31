@@ -1085,7 +1085,7 @@ def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
     # table.update('tau', 0, t+1)
     # table.update('n_pulls', 0, algo.n_pulls.tolist())
     
-    return t+1, 
+    return t+1, b_stopped
 
 def algo_factory(algo_name, env, delta, T):
     if (algo_name == 'uniform'):
