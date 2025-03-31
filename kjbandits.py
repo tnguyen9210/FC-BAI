@@ -1034,36 +1034,38 @@ def run_bandit_pe(algo, env, delta, max_iter, sigma_sq = 1.0):
         if (t < env.K):
             continue
 
-        hatmus = algo.get_empirical_means()
-        min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
-        # table.update('i_t', t, i_t)
-        # table.update('min_W_n', t, min_W_n)
+        # hatmus = algo.get_empirical_means()
+        # min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
+        # # table.update('i_t', t, i_t)
+        # # table.update('min_W_n', t, min_W_n)
 
-        if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
-            b_stopped = True
-            break
-
-        # hatmus = algo.sum_rewards / algo.n_pulls
+        # if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
+        #     b_stopped = True
+        #     break
+        
+        hatmus = algo.sum_rewards / algo.n_pulls
+        logterms = np.log(1.25*t**4/delta)
+        bonuses = np.sqrt(logterms/algo.n_pulls/2)
         # logterms = np.log(6*algo.K*np.log2(algo.K)*algo.i_doubling**2/delta)
         # bonuses = np.sqrt(2*logterms/algo.n_pulls)
 
-        # sidx = np.argsort(hatmus)[::-1]
-        # i_top = sidx[0]
-        # i_bot = sidx[1:]
+        sidx = np.argsort(hatmus)[::-1]
+        i_top = sidx[0]
+        i_bot = sidx[1:]
 
-        # h_t = i_top
-        # bar_LCB = hatmus[i_top] - bonuses[i_top]
+        h_t = i_top
+        bar_LCB = hatmus[i_top] - bonuses[i_top]
 
-        # #- highest UCB from the bottom
-        # v = hatmus[i_bot] + bonuses[i_bot]
-        # maxv = v.max()
-        # idx = ra.choice(np.where(v == maxv)[0])
-        # ell_t = i_bot[idx]
-        # bar_UCB = maxv
+        #- highest UCB from the bottom
+        v = hatmus[i_bot] + bonuses[i_bot]
+        maxv = v.max()
+        idx = ra.choice(np.where(v == maxv)[0])
+        ell_t = i_bot[idx]
+        bar_UCB = maxv
 
-        # if (bar_LCB > bar_UCB):
-        #     b_stopped = True
-        #     break
+        if (bar_LCB > bar_UCB):
+            b_stopped = True
+            break
         
 
     # if (b_stopped == False):
