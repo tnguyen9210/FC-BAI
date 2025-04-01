@@ -251,6 +251,111 @@ class Lucb(BanditAlg):
         print('success_t = %5d, success_arm = %3d'% (self.success_t, self.success_arm))
 
 
+class Lucb2(BanditAlg):
+    """ based on lucb++ """
+    def __init__(self, K, sig_sq, delta):
+        self.n_pulls = np.zeros(K)
+        self.sum_rewards = np.zeros(K)
+        self.t = 0
+        self.K = K
+        self.sig_sq = sig_sq
+        self.delta = delta
+        self.success_yes = False
+        self.success_t = -1
+        self.success_arm = -1
+        self.arm_queue = -1
+        pass
+
+    @staticmethod
+    def dev(n_pulls, delta, sig_sq, t):
+        # numer = np.log(np.log(2*n_pulls)) + 0.72*np.log(5.2/delta)
+        # return np.sqrt(sig_sq)*1.7*np.sqrt(numer/n_pulls)
+        logterm = np.log(1.25*np.log(2*n_pulls)/delta)
+        return np.sqrt(2*sig_sq*logterm/n_pulls)
+
+    def next_arm(self):
+        logging.debug(f"\n-> next_arm()")
+        logging.debug(f"self.t = {self.t}")
+        if any(self.n_pulls == 0):
+            return np.argmin(self.n_pulls)
+
+        if self.success_yes:
+            choice = self.success_arm
+        elif self.arm_queue != -1:
+            logging.debug(f"queue")
+            choice = self.arm_queue
+            self.arm_queue = -1
+        else:
+            logging.debug(f"select arms")
+            hatmu = self.sum_rewards / self.n_pulls
+            maxval = np.max(hatmu)
+
+            sidx = np.argsort(hatmu)[::-1]
+            i_top = sidx[0]
+            i_bot = sidx[1:]
+
+            # dev_top = self.dev(self.n_pulls, self.delta/2/(self.K-1), self.sig_sq)
+            # dev_bot = self.dev(self.n_pulls, self.delta/2           , self.sig_sq)
+            dev_top = self.dev(self.n_pulls, self.delta/(self.K-1), self.sig_sq, self.t)
+            dev_bot = self.dev(self.n_pulls, self.delta, self.sig_sq, self.t)
+
+            #- smallest LCB from the top
+            h_t = i_top
+            bar_LCB = hatmu[i_top] - dev_top[i_top]
+
+            #- highest UCB from the bottom
+            v = hatmu[i_bot] + dev_bot[i_bot]
+            maxv = v.max()
+            idx = ra.choice(np.where(v == maxv)[0])
+            ell_t = i_bot[idx]
+            bar_UCB = maxv
+
+            logging.debug(f"sum_rewards = {self.sum_rewards}")
+            logging.debug(f"n_pulls = {self.n_pulls}")
+            logging.debug(f"hatmu = {hatmu}")
+            logging.debug(f"dev_top = {dev_top}")
+            logging.debug(f"h_t = {h_t}")
+            logging.debug(f"ell_t = {ell_t}")
+            logging.debug(f"bar_LCB = {bar_LCB:0.4f}")
+            logging.debug(f"bar_UCB = {bar_UCB:0.4f}")
+
+#            ipdb.set_trace()
+            if (bar_LCB > bar_UCB):
+                self.success_yes = True
+                self.success_t = self.t
+                self.success_arm = h_t
+                choice = self.success_arm
+            else:
+                choice = h_t
+                self.arm_queue = ell_t
+
+        return choice
+
+    def get_empirical_means(self):
+        return self.sum_rewards / self.n_pulls
+    
+    def update(self, i_arm, reward):
+        self.n_pulls[i_arm] += 1
+        self.sum_rewards[i_arm] += reward
+        self.t += 1
+
+    def get_best_empirical_mean(self):
+        if (self.t <= self.K):
+            return np.nan
+        me = self.sum_rewards / self.n_pulls
+        return me.max()
+
+    def get_best_arm(self):
+        if (self.t <= self.K):
+            return -1
+        me = self.sum_rewards / self.n_pulls
+        max_reward = me.max()
+        return ra.choice(np.where(me == max_reward)[0])
+
+    def print_stats(self):
+        print('success_t = %5d, success_arm = %3d'% (self.success_t, self.success_arm))
+
+
 class Kaufmann(BanditAlg):
     """
     track and stop.

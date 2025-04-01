@@ -30,7 +30,7 @@ opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
 
-version = 'v41'
+version = 'v11'
 K = 4
 mu_opt = 1.0
 mu_sub = 1.0 - 0.1

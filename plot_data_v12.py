@@ -48,15 +48,13 @@ def hill_estimator(data, k):
 
 # plt.show()
 
-version = "v11"
+version = "v13"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
-algo_names = ['lucb', 'tstci', 'fcsh-1.01',
-              'fcsh-1.1', 'fcsh-2', ]
-algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01']
-
-algo_names = ['se_t4']
+algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
+algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+# algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 
 colors = ['skyblue','g','r', 'y', 'b', 'orange']
 
@@ -65,9 +63,13 @@ n_trials = 1000
 
 for algo_idx, algo_name in enumerate(algo_names):
     
-    filename = f"results/all_stopping_times_{algo_name}_1000_{version}.txt"
+    filename = f"final_results/all_stopping_times_{algo_name}_1000_{version}.txt"
+    print(filename)
     all_stopping_times = np.loadtxt(filename)
-    print(len(all_stopping_times))
+    # print(all_stopping_times[:50])
+    # print(len(all_stopping_times))
+    # # print(all_stopping_times)
+    # stop
     print(f"max = {np.max(all_stopping_times):0.4f}")
     print(f"min = {np.min(all_stopping_times):0.4f}")
     num_fails = np.sum(all_stopping_times == max_iter)
@@ -78,7 +80,7 @@ for algo_idx, algo_name in enumerate(algo_names):
     # print(f"hill = {hill}")
 
     plt.hist(
-        all_stopping_times, bins=100,
+        all_stopping_times, bins=50,
         label=f"{algo_name}", lw=3, alpha=0.5,  
         color=colors[algo_idx],
         edgecolor=colors[algo_idx],
