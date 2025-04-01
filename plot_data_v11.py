@@ -49,19 +49,19 @@ color_list = ['skyblue','g','r', 'y', 'b', 'orange']
 
 version = "v14"
 
-# filename = f"results/all_stopping_times_fcsh-1.01_1000_v34.txt"
-# all_stopping_times = np.loadtxt(filename)
-# print(len(all_stopping_times))
-# print(f"max = {np.max(all_stopping_times):0.4f}")
-# print(f"min = {np.min(all_stopping_times):0.4f}")
-# kurt = kurtosis(all_stopping_times, fisher=False)
-# print(f"kurt = {kurt}")
-# # hill = hill_estimator(all_stopping_times, 5)
-# # print(f"hill = {hill}")
+filename = f"results/all_stopping_times_fcsh-1.01_1000_v34.txt"
+all_stopping_times = np.loadtxt(filename)
+print(len(all_stopping_times))
+print(f"max = {np.max(all_stopping_times):0.4f}")
+print(f"min = {np.min(all_stopping_times):0.4f}")
+kurt = kurtosis(all_stopping_times, fisher=False)
+print(f"kurt = {kurt}")
+# hill = hill_estimator(all_stopping_times, 5)
+# print(f"hill = {hill}")
 
-# plt.hist(
-#     all_stopping_times, bins=50, color=color_list[5],
-#     alpha=0.5, edgecolor=color_list[5], label="FCDSH-2-stoppingt4", lw=3)
+plt.hist(
+    all_stopping_times, bins=50, color=color_list[5],
+    alpha=0.5, edgecolor=color_list[5], label="FCDSH-2-stoppingt4", lw=3)
 
 
 filename = f"results/all_stopping_times_tstci_1000_{version}.txt"
