@@ -74,7 +74,7 @@ def algo_factory_fc(algo_name, K, seed, sigma_sq, beta, delta):
 #algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
 algo_names = ['tstci', 'fcsh-1.01', 'fcsh-1.01-d1.01', 'fcsh-1.01-d3', 'fcsh-1.01-d4', 'fcsh-1.01-d5']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
-algo_names = ['lucb']
+algo_names = ['lucb2']
 #algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01', 'fcsh-1.01-d3', 'fcsh-1.01-d4']
 opt.algo_names = algo_names
 
