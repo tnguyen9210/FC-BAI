@@ -26,12 +26,7 @@ def hill_estimator(data, k):
     return 1 / hill  # Tail index α
 
 
-# filename = "all_stopping_time.txt"
-# all_stopping_times = np.loadtxt(filename)
-# print(all_stopping_times)
-# print(len(all_stopping_times))
 
-color_list = ['skyblue','g','r', 'y', 'b', 'orange']
 
 # filename = "results/all_stopping_time_fcsh-1.1_9_v21.txt"
 # all_stopping_times = np.loadtxt(filename)
@@ -59,7 +54,14 @@ algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
-algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01']
+
+algo_names = ['se_t4']
+
+colors = ['skyblue','g','r', 'y', 'b', 'orange']
+
+max_iter = 999999
+n_trials = 1000
 
 for algo_idx, algo_name in enumerate(algo_names):
     
@@ -68,13 +70,15 @@ for algo_idx, algo_name in enumerate(algo_names):
     print(len(all_stopping_times))
     print(f"max = {np.max(all_stopping_times):0.4f}")
     print(f"min = {np.min(all_stopping_times):0.4f}")
+    num_fails = np.sum(all_stopping_times == max_iter)
+    print(f"num fails = {num_fails} ({num_fails/n_trials:0.2f}%)")
     # kurt = kurtosis(all_stopping_times, fisher=False)
     # print(f"kurt = {kurt}")
     # hill = hill_estimator(all_stopping_times, 5)
     # print(f"hill = {hill}")
 
     plt.hist(
-        all_stopping_times, bins=50,
+        all_stopping_times, bins=100,
         label=f"{algo_name}", lw=3, alpha=0.5,  
         color=colors[algo_idx],
         edgecolor=colors[algo_idx],
