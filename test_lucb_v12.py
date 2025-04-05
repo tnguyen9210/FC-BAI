@@ -72,6 +72,9 @@ emax_mat = np.zeros((len(algo_names), n_trials))
 best_arm_mat = np.zeros((len(algo_names), n_trials)) 
 seed_ary = gen_seeds2(n_trials, seed=opt.dataseed)
 
+num_cores = mp.cpu_count()
+print(f"Number of CPU cores: {num_cores}")
+
 manager = mp.Manager()
 all_stop_times = manager.list()
 
