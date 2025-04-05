@@ -88,7 +88,7 @@ def run_trial(
     algo = algo_factory_fc(
         algo_name, K, opt.algoseed + i_trial, opt.sigma_sq, opt.beta, opt.delta)
     
-    tau, is_top = run_bandit_lucb_t2(
+    tau, is_top = run_bandit_lucb_t0(
         algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
     # print(tau)
     

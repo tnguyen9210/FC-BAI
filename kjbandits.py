@@ -1240,6 +1240,44 @@ def run_bandit_lucb_t2(algo, env, delta, max_iter, sigma_sq = 1.0):
     
     return t+1, b_stopped
 
+def run_bandit_lucb_t0(algo, env, delta, max_iter, sigma_sq = 1.0):
+    table = KjTable() 
+    b_stopped = False
+    for t in range(max_iter):
+        i_t = algo.next_arm()
+        y_t = env.get_reward(i_t)
+        logging.info(f"i_t = {i_t}")
+        logging.info(f"y_t = {y_t:0.4f}")
+        algo.update(i_t, y_t)
+        logging.info(f"sum_rewards = {algo.sum_rewards}")
+        logging.info(f"n_pulls = {algo.n_pulls}")
+        
+        if (t < env.K):
+            continue
+
+        # if algo.success_yes:
+        #     b_stopped = True
+        #     break
+        
+        hatmus = algo.get_empirical_means()
+        min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
+        logging.debug(f"min_W_n = {min_W_n}")
+        # table.update('i_t', t, i_t)
+        # table.update('min_W_n', t, min_W_n)
+
+        if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
+            b_stopped = True
+            break
+
+    # if (b_stopped == False):
+    #     table.update('did_not_stop', 0, True)
+        
+    # table.update('i_best', 0, algo.get_best_arm())
+    # table.update('tau', 0, t+1)
+    # table.update('n_pulls', 0, algo.n_pulls.tolist())
+    
+    return t+1, b_stopped
+
 
 def run_bandit_pe_v21(algo, env, delta, max_iter, sigma_sq = 1.0, n_rigged = 5):
     table = KjTable() 
