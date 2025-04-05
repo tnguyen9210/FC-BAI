@@ -130,7 +130,7 @@ def main():
     np.random.seed(1)
     
     sigma = 1
-    delta = 0.05
+    delta = 0.01
     max_iter = 1000000
 
     version = "v12"
@@ -154,6 +154,7 @@ def main():
 
     algo_names = ["FC-DSH", "FC-DSH-reuse"]
     algo_names = ["se_t4", "se_orig"]
+    algo_names = ["se_orig"]
     
     for idx, algo_name in enumerate(algo_names):
         print(f"\n-> algo_name = {algo_name}")

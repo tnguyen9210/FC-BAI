@@ -25,47 +25,33 @@ def hill_estimator(data, k):
     hill = np.mean(np.log(top_k) - np.log(x_k))
     return 1 / hill  # Tail index α
 
-
-
-
-# filename = "results/all_stopping_time_fcsh-1.1_9_v21.txt"
-# all_stopping_times = np.loadtxt(filename)
-# print(len(all_stopping_times))
-# # kurt = kurtosis(all_stopping_times, fisher=False)
-# # print(f"kurt = {kurt}")
-# # hill = hill_estimator(all_stopping_times, 5)
-# # print(f"hill = {hill}")
-
-# plt.hist(
-#     all_stopping_times, bins=10, color=color_list[0],
-#     alpha=0.5, edgecolor=color_list[0], label="FC-DSH", lw=3)
-
-# plt.xlabel('Stopping time', fontsize=13)
-# plt.ylabel('Number of Trials', fontsize=13)
-
-# plt.legend(fontsize=15)
-# plt.savefig(f"fc_dsh.png", format='png')
-
-# plt.show()
-
-version = "v13"
+version = "v12"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
 algo_names = ['lucb', 'tstci', 'fcsh-1.01']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
+# algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
-colors = ['skyblue','g','r', 'y', 'b', 'orange']
+colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
 n_trials = 1000
 
 for algo_idx, algo_name in enumerate(algo_names):
-    
-    filename = f"final_results/all_stopping_times_{algo_name}_1000_{version}.txt"
+    filename = f"final_results/all_stop_times_{algo_name}_1000_{version}.txt"
     print(filename)
     all_stopping_times = np.loadtxt(filename)
+    
+    if algo_name == 'lucb':
+        algo_name = 'LUCB1'
+    elif algo_name == 'tstci':
+        algo_name = 'TS-TCI'
+    elif algo_name == 'fcsh-1.01' or algo_name == 'fcsh-1.1':
+        algo_name = 'FC-DSH-reuse'
+    elif algo_name == 'fcsh-1.01-reuse' or algo_name == 'fcsh-1.1':
+        algo_name = 'FC-DSH-no-reuse'
     # print(all_stopping_times[:50])
     # print(len(all_stopping_times))
     # # print(all_stopping_times)
@@ -78,6 +64,7 @@ for algo_idx, algo_name in enumerate(algo_names):
     # print(f"kurt = {kurt}")
     # hill = hill_estimator(all_stopping_times, 5)
     # print(f"hill = {hill}")
+    all_stopping_times = np.log(all_stopping_times)
 
     plt.hist(
         all_stopping_times, bins=50,
@@ -91,7 +78,8 @@ plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('Number of Trials', fontsize=13)
 
 plt.legend(fontsize=15)
-plt.savefig(f"fc_dsh_compare_{version}.png", format='png')
+# plt.savefig(f"fc_bai_comparison_{version}.png", format='png')
+plt.savefig(f"fc_bai_comparison_{version}.pdf", format='pdf')
 
 plt.show()
 

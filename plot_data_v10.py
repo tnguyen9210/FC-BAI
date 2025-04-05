@@ -48,12 +48,13 @@ def hill_estimator(data, k):
 
 # plt.show()
 
-version = "v13"
+version = "v22"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
 algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
 algo_names = ['se_orig']
 # algo_names = ['se_t4']
@@ -67,7 +68,18 @@ for algo_idx, algo_name in enumerate(algo_names):
     
     filename = f"final_results/all_stopping_times_{algo_name}_1000_{version}.txt"
     all_stopping_times = np.loadtxt(filename)
-    all_stopping_times[all_stopping_times == max_iter] = 100000
+    all_stopping_times_ignore = []
+    for tau in all_stopping_times:
+        if tau != max_iter:
+            all_stopping_times_ignore.append(tau)
+    all_stopping_times = all_stopping_times_ignore
+    num_fails = np.sum(all_stopping_times == max_iter)
+    # print(f"num_fails = {num_fails}")
+    # stop
+    # all_stopping_times[all_stopping_times == max_iter] = 100000
+
+    if algo_name == 'se_orig':
+        algo_name = 'SE'
     # print(len(all_stopping_times))
     print(f"max = {np.max(all_stopping_times):0.4f}")
     print(f"min = {np.min(all_stopping_times):0.4f}")
@@ -90,7 +102,9 @@ plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('Number of Trials', fontsize=13)
 
 plt.legend(fontsize=15)
-plt.savefig(f"fc_dsh_{algo_name}_{version}.png", format='png')
+
+# plt.savefig(f"fc_dsh_{algo_name}_{version}.png", format='png')
+# plt.savefig(f"{algo_name}_{version}.pdf", format='pdf')
 
 plt.show()
 

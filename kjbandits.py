@@ -698,6 +698,7 @@ class SequentialHalving:
         self.B = B
         self.reuse = reuse
         self.seed = seed
+        self.reset = False 
 
         self.cur_best_arm = -1
         self.n_pulls = np.zeros(K,dtype=int)
@@ -800,11 +801,13 @@ class FCDoublingSequentialHalving:
                  E.g., divisor=2 is the standard SH. 
         """
         self.K = K
-        self.reuse = reuse
-        assert self.reuse == True
+        self.reuse = False
+        # assert self.reuse == True
         self.seed = seed
         self.factor = factor
+        # self.factor = 2
         self.divisor = divisor
+        self.reset = False
 
         self.cur_best_arm = -1
         self.n_pulls = np.zeros(K,dtype=int)
@@ -932,6 +935,8 @@ class FCDoublingSequentialHalving:
                 break
         T_ary = np.array(T_ary)
         A_ary = np.array(A_ary)
+        # print(f"T_ary = {T_ary}")
+        # print(f"A_ary = {A_ary}")
         
         L = len(T_ary)
         T_ary = np.array(T_ary)
@@ -957,7 +962,8 @@ class FCDoublingSequentialHalving:
         self.n_pulls[idx] += 1
         self.sum_rewards[idx] += reward
 
-        #- perform elimination if needed (but I wouldn't think this loop will run more than one iteration)
+        #- perform elimination if needed
+        # (but I wouldn't think this loop will run more than one iteration)
         while (self.ell <= self.L and np.all(self.n_pulls[self.surviving] >= self.T_ary[self.ell-1])):
             me = self.sum_rewards[self.surviving] / self.n_pulls[self.surviving]
             n_half = self.A_ary[self.ell]
@@ -969,15 +975,23 @@ class FCDoublingSequentialHalving:
             self.surviving = self.surviving[my_chosen] # index translation
             self.ell += 1
 
-             #- if we reached the end, double the budget and reset!
+            #- if we reached the end, double the budget and reset!
             if (self.ell > self.L):
+                # print("yes")
                 self.i_doubling += 1
                 #self.B_doubling *= self.divisor
                 self.ell = 1
                 self.surviving = np.arange(self.K)
                 
                 self.base_n_pulls *= self.factor
-                self.T_ary, self.A_ary = FCDoublingSequentialHalving.calc_schedule_2(self.K, self.divisor, self.base_n_pulls)
+                self.T_ary, self.A_ary = FCDoublingSequentialHalving.calc_schedule_2(
+                    self.K, self.divisor, self.base_n_pulls)
+                # print(self.T_ary, self.A_ary)
+                self.reset = True
+                
+            # if self.reuse == False:
+            #     self.n_pulls[self.surviving] = 0
+            #     self.sum_rewards[self.surviving] = 0.0
             
         self.t += 1
 
@@ -1126,61 +1140,28 @@ def run_bandit_pe(algo, env, delta, max_iter, sigma_sq = 1.0):
     table = KjTable() 
     b_stopped = False
     for t in range(max_iter):
+        logging.info(f"\n->t = {t}")
         i_t = algo.next_arm()
         y_t = env.get_reward(i_t)
-        logging.info(f"\n->t = {t}")
         # logging.info(f"i_doubling = {algo.i_doubling}")
         logging.info(f"i_t = {i_t}")
         logging.info(f"y_t = {y_t:0.4f}")
         algo.update(i_t, y_t)
         logging.info(f"sum_rewards = {algo.sum_rewards}")
         logging.info(f"n_pulls = {algo.n_pulls}")
-        
+        # logging.info(f"i_doubling = {algo.i_doubling}")
+
         if (t < env.K):
             continue
 
         hatmus = algo.get_empirical_means()
         min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
-        # table.update('i_t', t, i_t)
-        # table.update('min_W_n', t, min_W_n)
 
         if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
             b_stopped = True
             break
-        
-        # hatmus = algo.sum_rewards / algo.n_pulls
-        # logterms = np.log(1.25*t**4/delta)
-        # bonuses = np.sqrt(logterms/algo.n_pulls/2)
-        # # logterms = np.log(6*algo.K*np.log2(algo.K)*algo.i_doubling**2/delta)
-        # # bonuses = np.sqrt(2*logterms/algo.n_pulls)
 
-        # sidx = np.argsort(hatmus)[::-1]
-        # i_top = sidx[0]
-        # i_bot = sidx[1:]
-
-        # h_t = i_top
-        # bar_LCB = hatmus[i_top] - bonuses[i_top]
-
-        # #- highest UCB from the bottom
-        # v = hatmus[i_bot] + bonuses[i_bot]
-        # maxv = v.max()
-        # idx = ra.choice(np.where(v == maxv)[0])
-        # ell_t = i_bot[idx]
-        # bar_UCB = maxv
-
-        # if (bar_LCB > bar_UCB):
-        #     b_stopped = True
-        #     break
-        
-
-    # if (b_stopped == False):
-    #     table.update('did_not_stop', 0, True)
-    # table.update('i_best', 0, algo.get_best_arm())
-    # table.update('tau', 0, t+1)
-    # table.update('n_pulls', 0, algo.n_pulls.tolist())
-    
     return t+1, b_stopped
-
 
 def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
     table = KjTable() 
@@ -1207,7 +1188,7 @@ def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
         # table.update('i_t', t, i_t)
         # table.update('min_W_n', t, min_W_n)
 
-        if (min_W_n > c_n_delta(t, delta = delta/(t**2), K = env.K)):
+        if (min_W_n > c_n_delta(t, delta = delta/(t**4), K = env.K)):
             b_stopped = True
             break
 
@@ -1219,6 +1200,77 @@ def run_bandit_lucb(algo, env, delta, max_iter, sigma_sq = 1.0):
     # table.update('n_pulls', 0, algo.n_pulls.tolist())
     
     return t+1, b_stopped
+
+
+def run_bandit_pe_v12(algo, env, delta, max_iter, sigma_sq = 1.0):
+    table = KjTable() 
+    b_stopped = False
+    for t in range(max_iter):
+        logging.info(f"\n->t = {t}")
+        i_t = algo.next_arm()
+        y_t = env.get_reward(i_t)
+        # logging.info(f"i_doubling = {algo.i_doubling}")
+        logging.info(f"i_t = {i_t}")
+        logging.info(f"y_t = {y_t:0.4f}")
+        algo.update(i_t, y_t)
+        logging.info(f"sum_rewards = {algo.sum_rewards}")
+        logging.info(f"n_pulls = {algo.n_pulls}")
+        logging.info(f"i_doubling = {algo.i_doubling}")
+
+        # if np.sum(algo.n_pulls > 0) < env.K:
+        #     continue
+        
+        if (t < env.K):
+            continue
+
+        hatmus = algo.get_empirical_means()
+        min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
+        # table.update('i_t', t, i_t)
+        # table.update('min_W_n', t, min_W_n)
+
+        if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
+            b_stopped = True
+            break
+
+        # if algo.reset == True and algo.reuse == False:
+        #     algo.n_pulls[algo.surviving] = 0
+        #     algo.sum_rewards[algo.surviving] = 0.0
+        #     algo.reset = False 
+        
+        # hatmus = algo.sum_rewards / algo.n_pulls
+        # logterms = np.log(1.25*t**4/delta)
+        # bonuses = np.sqrt(logterms/algo.n_pulls/2)
+        # # logterms = np.log(6*algo.K*np.log2(algo.K)*algo.i_doubling**2/delta)
+        # # bonuses = np.sqrt(2*logterms/algo.n_pulls)
+    
+        # sidx = np.argsort(hatmus)[::-1]
+        # i_top = sidx[0]
+        # i_bot = sidx[1:]
+
+        # h_t = i_top
+        # bar_LCB = hatmus[i_top] - bonuses[i_top]
+
+        # #- highest UCB from the bottom
+        # v = hatmus[i_bot] + bonuses[i_bot]
+        # maxv = v.max()
+        # idx = ra.choice(np.where(v == maxv)[0])
+        # ell_t = i_bot[idx]
+        # bar_UCB = maxv
+
+        # if (bar_LCB > bar_UCB):
+        #     b_stopped = True
+        #     break
+        
+    # stop
+    # if (b_stopped == False):
+    #     table.update('did_not_stop', 0, True)
+    # table.update('i_best', 0, algo.get_best_arm())
+    # table.update('tau', 0, t+1)
+    # table.update('n_pulls', 0, algo.n_pulls.tolist())
+    
+    return t+1, b_stopped
+
+
 
 def algo_factory(algo_name, env, delta, T):
     if (algo_name == 'uniform'):
