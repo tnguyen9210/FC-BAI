@@ -25,23 +25,22 @@ def hill_estimator(data, k):
     hill = np.mean(np.log(top_k) - np.log(x_k))
     return 1 / hill  # Tail index α
 
+version = "v12"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb', 'lucb_t2', 'fcsh-1.01']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
 colors = ['g','r', 'y', 'b', 'orange']
 
-version = "v22"
 max_iter = 999999
-n_trials = 1000
-n_rigged = 15
+n_trials = 100000
 
 for algo_idx, algo_name in enumerate(algo_names):
-    filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}_{n_rigged}.txt"
+    filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"
     print(filename)
     all_stopping_times = np.loadtxt(filename)
     all_stopping_times = all_stopping_times[:100000]
@@ -78,10 +77,9 @@ for algo_idx, algo_name in enumerate(algo_names):
 
 plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('Number of Trials', fontsize=13)
-plt.title(f'n_rigged = {n_rigged}', fontsize=13)
 
 plt.legend(fontsize=15)
-plt.savefig(f"fc_bai_comparison_{n_trials}_{version}_{n_rigged}.png", format='png')
+plt.savefig(f"fc_bai_comparison_{n_trials}_{version}.png", format='png')
 # plt.savefig(f"fc_bai_comparison_{n_trials}_{version}.pdf", format='pdf')
 
 plt.show()

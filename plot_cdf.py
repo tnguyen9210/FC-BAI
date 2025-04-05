@@ -30,6 +30,7 @@ colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
 n_trials = 1000
+n_rigged = 20
 
 def make_model(sample, size=1000):
     mu = np.mean(sample)
@@ -43,7 +44,7 @@ def make_model(sample, size=1000):
 
 for algo_idx, algo_name in enumerate(algo_names):
     
-    filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"
+    filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}_{n_rigged}.txt"
     print(filename)
     all_stopping_times = np.loadtxt(filename)
     # all_stopping_times = all_stopping_times[:10000]
@@ -57,20 +58,30 @@ for algo_idx, algo_name in enumerate(algo_names):
         algo_name = 'FC-DSH'
         
     all_stopping_times -= np.mean(all_stopping_times)
-    print(len(all_stopping_times))
     std = np.std(all_stopping_times, ddof=1)
     sorted_samples = np.sort(all_stopping_times)
     # _norm = norm(loc=0, scale=1)
     cdf = np.arange(1, len(sorted_samples) + 1) / len(sorted_samples)
     res = np.log(1 - cdf)
+    _sorted_samples = sorted_samples[res != -np.inf]
+    _cdf = cdf[res != -np.inf]
+    _res = res[res != -np.inf]
+    # print(res[-10:])
+    # print(res[res!=-np.inf][-10:])
+    # stop
 
     # res = norm.logsf(sorted_samples, loc=0, scale=std)
     # res = norm.cdf(sorted_samples)
-    print(len(res))
-    x = np.log(sorted_samples)
+    # print(len(res))
+    _xlog = np.log(_sorted_samples)
     # plt.plot(x[x> 6], res[x> 6], label=f"{algo_name}", color=colors[algo_idx])
-    plt.plot(x, res, label=f"{algo_name}", color=colors[algo_idx])
-    # plt.plot(sorted_samples, cdf, label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(x, res, label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(sorted_samples[res!=-np.inf], res[res!=-np.inf],
+    #          label=f"{algo_name}", color=colors[algo_idx])
+    plt.plot(_xlog[_xlog > 6], _res[_xlog > 6],
+             label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(sorted_samples, cdf[cdf!=-np.inf],
+    #          label=f"{algo_name}", color=colors[algo_idx])
     # plt.show()
     # stop
 
@@ -109,11 +120,13 @@ for algo_idx, algo_name in enumerate(algo_names):
 
 plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('CDFs', fontsize=13)
+plt.title(f'n_rigged = {n_rigged}', fontsize=13)
 # plt.xticks(np.arange(6, 8))
 
 plt.legend(fontsize=15)
 
-plt.savefig(f"cdf_plot_sep_{algo_name}_{n_trials}_{version}.png", format='png')
+# plt.savefig(f"cdf_plot_sep_{algo_name}_{n_trials}_{version}.png", format='png')
+plt.savefig(f"cdf_plot_sep_{algo_name}_{n_trials}_{version}_{n_rigged}.png", format='png')
 # plt.savefig(f"cdf_plot_sep_{algo_name}_{version}.pdf", format='pdf')
 
 plt.show()

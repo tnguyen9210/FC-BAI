@@ -1301,7 +1301,7 @@ def run_bandit_lucb_v21(algo, env, delta, max_iter, sigma_sq = 1.0, n_rigged = 5
         # table.update('i_t', t, i_t)
         # table.update('min_W_n', t, min_W_n)
 
-        if (min_W_n > c_n_delta(t, delta = delta/(t**4), K = env.K)):
+        if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
             b_stopped = True
             break
 
@@ -1315,36 +1315,6 @@ def run_bandit_lucb_v21(algo, env, delta, max_iter, sigma_sq = 1.0, n_rigged = 5
     return t+1, b_stopped
 
 
-def run_bandit_pe_v12(algo, env, delta, max_iter, sigma_sq = 1.0):
-    table = KjTable() 
-    b_stopped = False
-    n_rigged = 5
-    for t in range(max_iter):
-        logging.info(f"\n->t = {t}")
-        i_t = algo.next_arm()
-        print(i_t)
-        # if n_rigged > 0 and i_t == 1:
-            
-        y_t = env.get_reward(i_t)
-        # logging.info(f"i_doubling = {algo.i_doubling}")
-        logging.info(f"i_t = {i_t}")
-        logging.info(f"y_t = {y_t:0.4f}")
-        algo.update(i_t, y_t)
-        logging.info(f"sum_rewards = {algo.sum_rewards}")
-        logging.info(f"n_pulls = {algo.n_pulls}")
-        # logging.info(f"i_doubling = {algo.i_doubling}")
-
-        if (t < env.K):
-            continue
-
-        hatmus = algo.get_empirical_means()
-        min_W_n = calc_min_W_n(hatmus, algo.n_pulls, delta, sigma_sq)
-
-        if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
-            b_stopped = True
-            break
-
-    return t+1, b_stopped
 
 
 def run_bandit_pe_v12(algo, env, delta, max_iter, sigma_sq = 1.0):

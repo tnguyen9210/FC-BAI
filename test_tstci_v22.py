@@ -99,7 +99,7 @@ def run_trial(
 
 K = len(opt.mu)
 
-n_rigged_list = [5, 10, 25, 50]
+n_rigged_list = [15, 20]
 for (i_algo, algo_name) in enumerate(algo_names):
     print(f"\n-> algo_name = {algo_name}")
     for (_, n_rigged) in enumerate(n_rigged_list):
