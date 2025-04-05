@@ -20,12 +20,13 @@ algo_names = ['lucb', 'lucb_t2', 'fcsh-1.01']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 algo_names = ['se_orig']
 
-colors = ['g','r', 'y', 'b', 'orange']
+colors = ['skyblue', 'g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
 n_trials = 1000
 
 delta_list = [0.001, 0.005, 0.01, 0.025, 0.05]
+delta_list = [0.01, 0.03, 0.05, 0.07, 0.09]
 
 for algo_idx, algo_name in enumerate(algo_names):
     num_fails_list = []

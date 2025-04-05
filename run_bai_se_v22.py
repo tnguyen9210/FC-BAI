@@ -55,8 +55,11 @@ print(f"n_trials = {n_trials}")
 algo_names = ["se_t4", "se_orig"]
 algo_names = ["se_orig"]
 
-delta_list = [0.01, 0.005, 0.01, 0.025, 0.05]
-delta_list = [delta for delta in np.arange(0.01, 0.1, 0.02)]
+delta_list = [0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05]
+# delta_list = [delta for delta in np.linspace(0.00, 0.05, 11)]
+# print(delta_list)
+# stop
+delta_list = [0.02, 0.03, 0.05, 0.07, 0.09, 0.11, 0.]
 for (i_algo, algo_name) in enumerate(algo_names):
     print(f"\n-> algo_name = {algo_name}")
     algo = create_algo(algo_name)
