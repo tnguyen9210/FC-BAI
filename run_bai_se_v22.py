@@ -56,6 +56,7 @@ algo_names = ["se_t4", "se_orig"]
 algo_names = ["se_orig"]
 
 delta_list = [0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05]
+delta_list = [0.00001, 0.0001, 0.001, 0.01, 0.1]
 # delta_list = [delta for delta in np.linspace(0.00, 0.05, 11)]
 # print(delta_list)
 # stop
