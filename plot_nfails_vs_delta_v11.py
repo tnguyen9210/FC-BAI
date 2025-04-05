@@ -29,12 +29,13 @@ delta_list = [0.001, 0.005, 0.01, 0.025, 0.05]
 
 for algo_idx, algo_name in enumerate(algo_names):
     num_fails_list = []
+    per_fails_list = []
     for (_, delta) in enumerate(delta_list):
         filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{delta}_{version}.txt"
         print(filename)
         all_stopping_times = np.loadtxt(filename)
-        print(all_stopping_times)
-        stop
+        # print(all_stopping_times)
+        # stop
         # all_stopping_times = all_stopping_times[:100000]
     
         # stop
@@ -43,12 +44,16 @@ for algo_idx, algo_name in enumerate(algo_names):
         num_fails = np.sum(all_stopping_times == max_iter)
         print(f"num fails = {num_fails} ({num_fails/n_trials:0.2f}%)")
         num_fails_list.append(num_fails)
+        per_fails_list.append(num_fails/n_trials)
     
-    plt.plot(delta_list, num_fails_list,
+    # plt.plot(delta_list, num_fails_list,
+    #          label=f"{algo_name}", color=colors[algo_idx])
+    plt.plot(delta_list, per_fails_list,
              label=f"{algo_name}", color=colors[algo_idx])
         
-plt.xlabel('Stopping time', fontsize=13)
-plt.ylabel('Number of Trials', fontsize=13)
+plt.xlabel('Delta', fontsize=13)
+plt.ylabel('Percentage of failed trials', fontsize=13)
+plt.xticks(delta_list)
 
 plt.legend(fontsize=15)
 plt.savefig(f"se_orig_nfails_vs_delta_{n_trials}_{version}.png", format='png')
