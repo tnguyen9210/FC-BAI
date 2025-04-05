@@ -21,16 +21,11 @@ def create_algo(algo_name):
 manager = mp.Manager()
 all_stop_times = manager.list()
 
-
 def run_trial(i_trial, K, algo, opt):
     random.seed(10000+i_trial)
     np.random.seed(10000+i_trial)
     
-    # all_outputs = []
-    all_stop_times = []
-    
     output, stop_time = algo(K, opt.arm_mus, opt.sigma, opt.delta, opt.max_iter)
-    # all_outputs.append(output)
     all_stop_times.append(stop_time)
 
     return 
@@ -50,7 +45,7 @@ mu_best = 1
 mu_sub = 1 - 0.4
 opt.arm_mus = [mu_best] + [mu_sub]*(K-1)
     
-n_trials = 1000
+n_trials = 10
 
 print(f"K = {K}")
 print(f"arm_mus = {opt.arm_mus}")
@@ -77,7 +72,9 @@ for (i_algo, algo_name) in enumerate(algo_names):
         total_time = time.time() - start_time
         print(f"it takes {total_time:0.4f}s")
         print(f"it takes {total_time/(n_trials+1):0.4f}s per trial")
-    
-        all_stop_times = np.array(all_stop_times)
+
+        # print(all_stop_times)
         filename = f"results/all_stop_times_{algo_name}_{n_trials}_{opt.delta}_{version}.txt"
-        np.savetxt(filename, all_stop_times)
+        np.savetxt(filename, np.array(all_stop_times))
+
+        all_stop_times[:] = []
