@@ -37,10 +37,10 @@ algo_names = ['lucb', 'tstci', 'fcsh-1.01']
 colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
-n_trials = 1000
+n_trials = 100000
 
 for algo_idx, algo_name in enumerate(algo_names):
-    filename = f"final_results/all_stop_times_{algo_name}_1000_{version}.txt"
+    filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"
     print(filename)
     all_stopping_times = np.loadtxt(filename)
     
@@ -78,8 +78,8 @@ plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('Number of Trials', fontsize=13)
 
 plt.legend(fontsize=15)
-# plt.savefig(f"fc_bai_comparison_{version}.png", format='png')
-plt.savefig(f"fc_bai_comparison_{version}.pdf", format='pdf')
+plt.savefig(f"fc_bai_comparison_{n_trials}_{version}.png", format='png')
+# plt.savefig(f"fc_bai_comparison_{n_trials}_{version}.pdf", format='pdf')
 
 plt.show()
 

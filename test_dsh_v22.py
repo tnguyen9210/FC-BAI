@@ -67,7 +67,7 @@ print(f"num_trials = {n_trials}")
 
 # algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
 algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
-# algo_names = ['lucb']
+# algo_names = ['tstci']
 
 emax_mat = np.zeros((len(algo_names), n_trials))
 best_arm_mat = np.zeros((len(algo_names), n_trials)) 
@@ -99,21 +99,25 @@ def run_trial(
 
 K = len(opt.mu)
 
+n_rigged_list = [5, 10, 25, 50]
 for (i_algo, algo_name) in enumerate(algo_names):
     print(f"\n-> algo_name = {algo_name}")
+    for (_, n_rigged) in enumerate(n_rigged_list):
+        print(f"-> n_rigged = {n_rigged}")
+        opt.n_rigged = n_rigged
 
-    trial_args = [(i_trial, K, algo_name, opt) for i_trial in range(n_trials)]
+        trial_args = [(i_trial, K, algo_name, opt) for i_trial in range(n_trials)]
     
-    start_time = time.time()
-    pool = mp.Pool()
-    pool.starmap(run_trial, trial_args)
-    pool.close()
+        start_time = time.time()
+        pool = mp.Pool()
+        pool.starmap(run_trial, trial_args)
+        pool.close()
     
-    total_time = time.time() - start_time
-    print(f"it takes {total_time:0.4f}s")
-    print(f"it takes {total_time/(n_trials+1):0.4f}s per trial")
+        total_time = time.time() - start_time
+        print(f"it takes {total_time:0.4f}s")
+        print(f"it takes {total_time/(n_trials+1):0.4f}s per trial")
     
-    filename = f"results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"
-    np.savetxt(filename, np.array(all_stop_times))
-
-    all_stop_times[:] = []
+        filename = f"results/all_stop_times_{algo_name}_{n_trials}_{version}_{opt.n_rigged}.txt"
+        np.savetxt(filename, np.array(all_stop_times))
+        
+        all_stop_times[:] = []
