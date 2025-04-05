@@ -1301,7 +1301,7 @@ def run_bandit_lucb_v21(algo, env, delta, max_iter, sigma_sq = 1.0, n_rigged = 5
         # table.update('i_t', t, i_t)
         # table.update('min_W_n', t, min_W_n)
 
-        if (min_W_n > c_n_delta(t, delta = delta, K = env.K)):
+        if (min_W_n > c_n_delta(t, delta = delta/(t**4), K = env.K)):
             b_stopped = True
             break
 
