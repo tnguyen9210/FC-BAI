@@ -26,7 +26,8 @@ max_iter = 999999
 n_trials = 1000
 
 delta_list = [0.001, 0.005, 0.01, 0.025, 0.05]
-delta_list = [0.01, 0.03, 0.05, 0.07, 0.09]
+# delta_list = [0.01, 0.03, 0.05, 0.07, 0.09]
+delta_list = [0.00001, 0.0001, 0.001, 0.01, 0.1]
 
 for algo_idx, algo_name in enumerate(algo_names):
     num_fails_list = []
@@ -43,18 +44,19 @@ for algo_idx, algo_name in enumerate(algo_names):
         print(f"max = {np.max(all_stopping_times):0.4f}")
         print(f"min = {np.min(all_stopping_times):0.4f}")
         num_fails = np.sum(all_stopping_times == max_iter)
-        print(f"num fails = {num_fails} ({num_fails/n_trials:0.2f}%)")
+        print(f"num fails = {num_fails} ({num_fails/n_trials*100:0.2f}%)")
         num_fails_list.append(num_fails)
-        per_fails_list.append(num_fails/n_trials)
+        per_fails_list.append(num_fails/n_trials*100)
     
     # plt.plot(delta_list, num_fails_list,
     #          label=f"{algo_name}", color=colors[algo_idx])
-    plt.plot(delta_list, per_fails_list,
+    plt.plot(np.log10(delta_list), per_fails_list,
              label=f"{algo_name}", color=colors[algo_idx])
         
-plt.xlabel('Delta', fontsize=13)
-plt.ylabel('Percentage of failed trials', fontsize=13)
-plt.xticks(delta_list)
+plt.xlabel('Delta (in log10)', fontsize=13)
+plt.ylabel('Percentage of failed trials (in %)', fontsize=13)
+plt.yticks(per_fails_list)
+plt.xticks(np.log10(delta_list))
 
 plt.legend(fontsize=15)
 plt.savefig(f"se_orig_nfails_vs_delta_{n_trials}_{version}.png", format='png')

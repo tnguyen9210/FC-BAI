@@ -45,7 +45,7 @@ mu_best = 1
 mu_sub = 1 - 0.4
 opt.arm_mus = [mu_best] + [mu_sub]*(K-1)
     
-n_trials = 1000
+n_trials = 100000
 
 print(f"K = {K}")
 print(f"arm_mus = {opt.arm_mus}")
