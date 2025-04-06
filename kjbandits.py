@@ -1441,7 +1441,7 @@ def run_bandit_lucb_t2(algo, env, delta, max_iter, sigma_sq = 1.0):
     
     return t+1, b_stopped
 
-def run_bandit_lucb_t2(algo, env, delta, max_iter, sigma_sq = 1.0):
+def run_bandit_lucb_t4(algo, env, delta, max_iter, sigma_sq = 1.0):
     table = KjTable() 
     b_stopped = False
     for t in range(max_iter):
