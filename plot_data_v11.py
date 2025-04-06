@@ -31,6 +31,7 @@ algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
 algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb', 'fcsh-1.01', 'fcsh-1.01-noreuse', 'fcsh-1.1-noreuse', 'fcsh-2-noreuse']
 algo_names = ['tstci']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
@@ -52,8 +53,8 @@ for algo_idx, algo_name in enumerate(algo_names):
         algo_name = 'TS-TCI'
     elif algo_name == 'fcsh-1.01' or algo_name == 'fcsh-1.1':
         algo_name = 'FC-DSH-reuse'
-    elif algo_name == 'fcsh-1.01-reuse' or algo_name == 'fcsh-1.1':
-        algo_name = 'FC-DSH-no-reuse'
+    # elif algo_name == 'fcsh-1.01-noreuse' or algo_name == 'fcsh-2-noreuse':
+    #     algo_name = 'FC-DSH-no-reuse'
     # print(all_stopping_times[:50])
     # print(len(all_stopping_times))
     # # print(all_stopping_times)
@@ -79,6 +80,7 @@ plt.ylabel('Number of Trials', fontsize=13)
 
 plt.legend(fontsize=15)
 plt.savefig(f"fc_bai_comparison_{n_trials}_{version}.png", format='png')
+# plt.savefig(f"fc_bai_comparison_noreuse_{n_trials}_{version}.png", format='png')
 # plt.savefig(f"fc_bai_comparison_{n_trials}_{version}.pdf", format='pdf')
 
 plt.show()

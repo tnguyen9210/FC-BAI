@@ -30,7 +30,7 @@ colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
 n_trials = 1000
-n_rigged = 20
+n_rigged = 15
 
 def make_model(sample, size=1000):
     mu = np.mean(sample)
@@ -126,7 +126,7 @@ plt.title(f'n_rigged = {n_rigged}', fontsize=13)
 plt.legend(fontsize=15)
 
 # plt.savefig(f"cdf_plot_sep_{algo_name}_{n_trials}_{version}.png", format='png')
-plt.savefig(f"cdf_plot_sep_{algo_name}_{n_trials}_{version}_{n_rigged}.png", format='png')
+plt.savefig(f"logcdf_rigged_plot_sep_{algo_name}_{n_trials}_{version}_{n_rigged}.png", format='png')
 # plt.savefig(f"cdf_plot_sep_{algo_name}_{version}.pdf", format='pdf')
 
 plt.show()

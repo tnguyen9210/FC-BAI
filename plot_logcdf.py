@@ -13,7 +13,7 @@ np.set_printoptions(precision=4)
 from empiricaldist import Cdf
 
 
-version = "v22"
+version = "v12"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
@@ -29,8 +29,8 @@ algo_names = ['lucb', 'tstci', 'fcsh-1.01']
 colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
-n_trials = 1000
-n_rigged = 20
+n_trials = 100000
+
 
 def make_model(sample, size=1000):
     mu = np.mean(sample)
@@ -44,7 +44,7 @@ def make_model(sample, size=1000):
 
 for algo_idx, algo_name in enumerate(algo_names):
     
-    filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}_{n_rigged}.txt"
+    filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"
     print(filename)
     all_stopping_times = np.loadtxt(filename)
     # all_stopping_times = all_stopping_times[:10000]
@@ -80,6 +80,8 @@ for algo_idx, algo_name in enumerate(algo_names):
     #          label=f"{algo_name}", color=colors[algo_idx])
     plt.plot(_xlog[_xlog > 6], _res[_xlog > 6],
              label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(_xlog, _res,
+    #          label=f"{algo_name}", color=colors[algo_idx])
     # plt.plot(sorted_samples, cdf[cdf!=-np.inf],
     #          label=f"{algo_name}", color=colors[algo_idx])
     # plt.show()
@@ -120,13 +122,13 @@ for algo_idx, algo_name in enumerate(algo_names):
 
 plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('CDFs', fontsize=13)
-plt.title(f'n_rigged = {n_rigged}', fontsize=13)
+# plt.title(f'n_rigged = {n_rigged}', fontsize=13)
 # plt.xticks(np.arange(6, 8))
 
 plt.legend(fontsize=15)
 
 # plt.savefig(f"cdf_plot_sep_{algo_name}_{n_trials}_{version}.png", format='png')
-plt.savefig(f"cdf_plot_sep_{algo_name}_{n_trials}_{version}_{n_rigged}.png", format='png')
+plt.savefig(f"logcdf_plot_sep_{algo_name}_{n_trials}_{version}.png", format='png')
 # plt.savefig(f"cdf_plot_sep_{algo_name}_{version}.pdf", format='pdf')
 
 plt.show()
