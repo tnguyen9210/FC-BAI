@@ -59,7 +59,7 @@ mu_opt = 1.0
 mu_sub = 1.0 - 0.1
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
 
-n_trials = 1
+n_trials = 1000
 
 print(f"mus = {opt.mu}")
 print(f"num_trials = {n_trials}")
