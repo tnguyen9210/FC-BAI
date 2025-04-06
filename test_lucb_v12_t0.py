@@ -54,7 +54,7 @@ opt.algoseed = 29
 opt.beta = .5
 
 version = 'v12_t0'
-K = 3
+K = 4
 mu_opt = 1.0
 mu_sub = 1.0 - 0.4
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
@@ -98,7 +98,7 @@ def run_trial(
 
 K = len(opt.mu)
 
-part_idx = 4
+part_idx = 3
 num_parts = 10
 n_trials_per_part = n_trials // num_parts
 start_point = n_trials_per_part*(part_idx)
