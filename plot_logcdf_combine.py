@@ -10,7 +10,7 @@ from scipy.stats import kurtosis, norm
 
 np.set_printoptions(precision=4)
 
-from empiricaldist import Cdf
+# from empiricaldist import Cdf
 
 
 version = "v12"
@@ -27,7 +27,7 @@ algo_names = ['lucb_t0']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
 # colors = ['g','r', 'y', 'b', 'orange']
-colors = ['g','r', 'y', 'b', 'orange', 'purple']
+# colors = ['g','r', 'y', 'b', 'orange', 'purple']
 
 max_iter = 999999
 n_trials = 1000000
@@ -44,7 +44,7 @@ def make_model(sample, size=1000):
     return xs, ys
 
 algo_name = algo_names[0]
-part_idxes = [3, 5, 6, 7]
+part_idxes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 for algo_idx, part_idx in enumerate(part_idxes):
 
     filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}_{part_idx}.txt"
@@ -61,7 +61,7 @@ for algo_idx, part_idx in enumerate(part_idxes):
 
     # print(all_stopping_times)
     # stop
-    all_stopping_times -= np.mean(all_stopping_times)
+    # all_stopping_times -= np.mean(all_stopping_times)
     std = np.std(all_stopping_times, ddof=1)
     sorted_samples = np.sort(all_stopping_times)
     # _norm = norm(loc=0, scale=1)
@@ -84,10 +84,18 @@ for algo_idx, part_idx in enumerate(part_idxes):
     #          label=f"{algo_name}", color=colors[algo_idx])
     # plt.plot(_xlog[_xlog > 9], _res[_xlog > 9],
     #          label=f"{algo_name}", color=colors[algo_idx])
-    plt.plot(_xlog, _res,
-             label=f"{algo_name}", color=colors[algo_idx])
-    # plt.plot(sorted_samples, cdf,
+    # plt.plot(_xlog, _res,
     #          label=f"{algo_name}", color=colors[algo_idx])
+    plt.plot(sorted_samples, cdf,
+             label=f"{part_idx}", color=colors[algo_idx])
+
+    # plt.hist(
+    #     all_stopping_times, bins=50,
+    #     label=f"{part_idx}", lw=3, alpha=0.5,  
+    #     color=colors[algo_idx],
+    #     edgecolor=colors[algo_idx],
+    # )
+    
     # plt.show()
     # stop
 
@@ -101,21 +109,13 @@ for algo_idx, part_idx in enumerate(part_idxes):
     # cdf.plot(label=f"{algo_name}", color=colors[algo_idx])
     # res = np.log(1-cdf)
     
-    # print(all_stopping_times[:50])
-    # print(len(all_stopping_times))
-    # # print(all_stopping_times)
     # stop
     print(f"max = {np.max(all_stopping_times):0.4f}")
     print(f"min = {np.min(all_stopping_times):0.4f}")
     num_fails = np.sum(all_stopping_times == max_iter)
     print(f"num fails = {num_fails} ({num_fails/n_trials:0.2f}%)")
 
-    # plt.hist(
-    #     all_stopping_times, bins=50,
-    #     label=f"{algo_name}", lw=3, alpha=0.5,  
-    #     color=colors[algo_idx],
-    #     edgecolor=colors[algo_idx],
-    # )
+    
     # plt.plot(sorted_samples, cdf, marker='.', linestyle='none',
     #          label=f"{algo_name}", color=colors[algo_idx])
 
