@@ -48,12 +48,12 @@ opt = SimpleNamespace()
 
 opt.delta = .05
 opt.dataseed = 103
-opt.max_iter = 100000
+opt.max_iter = 1000000
 opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
 
-version = 'v13'
+version = 'v13_p'
 K = 4
 mu_opt = 1.0
 mu_sub = 1.0 - 0.6
@@ -66,7 +66,7 @@ print(f"num_trials = {n_trials}")
 
 # algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
-algo_names = ['tstci']
+algo_names = ['lucb']
 
 emax_mat = np.zeros((len(algo_names), n_trials))
 best_arm_mat = np.zeros((len(algo_names), n_trials)) 
@@ -88,7 +88,7 @@ def run_trial(
     algo = algo_factory_fc(
         algo_name, K, opt.algoseed + i_trial, opt.sigma_sq, opt.beta, opt.delta)
     
-    tau, is_top = run_bandit_pe(
+    tau, is_top = run_bandit_lucb_p(
         algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
     # print(tau)
     
@@ -112,8 +112,8 @@ for (i_algo, algo_name) in enumerate(algo_names):
     print(f"it takes {total_time:0.4f}s")
     print(f"it takes {total_time/(n_trials+1):0.4f}s per trial")
     
+    all_stop_times = np.array(all_stop_times)
     filename = f"results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"
-    np.savetxt(filename, np.array(all_stop_times))
+    np.savetxt(filename, all_stop_times)
 
-    all_stop_times[:] = []
 
