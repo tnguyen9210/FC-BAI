@@ -50,11 +50,13 @@ def make_model(sample, size=1000):
 algo_name = algo_names[0]
 part_idxes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 part_idxes = [0, 1, 2, '2a', 3, 4, 5, 6, 7, 8, 9]
+checks = []
 for algo_idx, part_idx in enumerate(part_idxes):
 
     filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}_{part_idx}.txt"
     all_stopping_times = np.loadtxt(filename)
-    print(all_stopping_times[:10])
+    checks.append(all_stopping_times[0])
+    # print(all_stopping_times[:10])
     # all_stopping_times = all_stopping_times[:10000]
     print(len(all_stopping_times))
      
@@ -125,6 +127,7 @@ for algo_idx, part_idx in enumerate(part_idxes):
     # plt.plot(sorted_samples, cdf, marker='.', linestyle='none',
     #          label=f"{algo_name}", color=colors[algo_idx])
 
+print(checks)
 # xs, ys = make_model(all_stopping_times)
 # res = np.log(1 - ys)
 # plt.plot(xs, res, color = 'gray', label='Gaussian')
