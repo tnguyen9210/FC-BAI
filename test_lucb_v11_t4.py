@@ -48,7 +48,7 @@ opt = SimpleNamespace()
 
 opt.delta = .05
 opt.dataseed = 103
-opt.max_iter = 100000
+opt.max_iter = 1000000
 opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
