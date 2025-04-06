@@ -13,16 +13,16 @@ np.set_printoptions(precision=4)
 from empiricaldist import Cdf
 
 
-version = "v11"
+version = "v12"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
 algo_names = ['lucb_p', 'lucb_t4', 'tstci', 'fcsh-1.01']
-# algo_names = ['lucb', 'lucb_t0', 'lucb_t2', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb_t0']
 # algo_names = ['fcsh-1.01']
 # algo_names = ['lucb']
-# algo_names = ['tstci']
+algo_names = ['tstci']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
@@ -30,7 +30,7 @@ algo_names = ['lucb_p', 'lucb_t4', 'tstci', 'fcsh-1.01']
 colors = ['g','r', 'y', 'b', 'orange', 'purple']
 
 max_iter = 999999
-n_trials = 1000
+n_trials = 1000000
 
 
 def make_model(sample, size=1000):
