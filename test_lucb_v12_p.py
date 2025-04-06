@@ -98,10 +98,24 @@ def run_trial(
 
 K = len(opt.mu)
 
+part_idx = 9
+num_parts = 10
+n_trials_per_part = n_trials // num_parts
+start_point = n_trials_per_part*(part_idx)
+end_point = start_point + n_trials_per_part
+n_trials_range = range(n_trials)
+n_trials_range_part = n_trials_range[start_point:end_point]
+# for i_trial in n_trials_range_part:
+#     print(i_trial)
+# print(n_trials_range_part)
+# stop
+print(f"part_idx = {part_idx}")
+print(f"range = {n_trials_range_part}")
+
 for (i_algo, algo_name) in enumerate(algo_names):
     print(f"\n-> algo_name = {algo_name}")
 
-    trial_args = [(i_trial, K, algo_name, opt) for i_trial in range(n_trials)]
+    trial_args = [(i_trial, K, algo_name, opt) for i_trial in n_trials_range_part]
     
     start_time = time.time()
     pool = mp.Pool()
@@ -113,7 +127,6 @@ for (i_algo, algo_name) in enumerate(algo_names):
     print(f"it takes {total_time/(n_trials+1):0.4f}s per trial")
     
     all_stop_times = np.array(all_stop_times)
-    filename = f"results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"
+    filename = f"results/all_stop_times_{algo_name}_{n_trials}_{version}_{part_idx}.txt"
     np.savetxt(filename, all_stop_times)
-
-
+    
