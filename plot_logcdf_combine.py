@@ -4,6 +4,10 @@ import seaborn as sns
 sns.set_style("ticks")
 sns.set_palette("tab20")
 colors = sns.color_palette("bright")
+colors = sns.color_palette("Paired", 12)
+# for i, color in enumerate(colors):
+#     print(i)
+# stop
 
 import numpy as np
 from scipy.stats import kurtosis, norm 
@@ -45,10 +49,12 @@ def make_model(sample, size=1000):
 
 algo_name = algo_names[0]
 part_idxes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+part_idxes = [0, 1, 2, '2a', 3, 4, 5, 6, 7, 8, 9]
 for algo_idx, part_idx in enumerate(part_idxes):
 
     filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}_{part_idx}.txt"
     all_stopping_times = np.loadtxt(filename)
+    print(all_stopping_times[:10])
     # all_stopping_times = all_stopping_times[:10000]
     print(len(all_stopping_times))
      
@@ -61,7 +67,7 @@ for algo_idx, part_idx in enumerate(part_idxes):
 
     # print(all_stopping_times)
     # stop
-    # all_stopping_times -= np.mean(all_stopping_times)
+    all_stopping_times -= np.mean(all_stopping_times)
     std = np.std(all_stopping_times, ddof=1)
     sorted_samples = np.sort(all_stopping_times)
     # _norm = norm(loc=0, scale=1)
@@ -84,10 +90,10 @@ for algo_idx, part_idx in enumerate(part_idxes):
     #          label=f"{algo_name}", color=colors[algo_idx])
     # plt.plot(_xlog[_xlog > 9], _res[_xlog > 9],
     #          label=f"{algo_name}", color=colors[algo_idx])
-    # plt.plot(_xlog, _res,
-    #          label=f"{algo_name}", color=colors[algo_idx])
-    plt.plot(sorted_samples, cdf,
+    plt.plot(_xlog, _res,
              label=f"{part_idx}", color=colors[algo_idx])
+    # plt.plot(sorted_samples, cdf,
+    #          label=f"{part_idx}", color=colors[algo_idx])
 
     # plt.hist(
     #     all_stopping_times, bins=50,
