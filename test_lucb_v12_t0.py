@@ -109,6 +109,8 @@ n_trials_range_part = n_trials_range[start_point:end_point]
 #     print(i_trial)
 # print(n_trials_range_part)
 # stop
+print(f"part_idx = {part_idx}")
+print(f"range = {n_trials_range_part}")
 
 for (i_algo, algo_name) in enumerate(algo_names):
     print(f"\n-> algo_name = {algo_name}")
