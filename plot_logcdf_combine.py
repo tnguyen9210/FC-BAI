@@ -1,0 +1,155 @@
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_style("ticks")
+sns.set_palette("tab20")
+colors = sns.color_palette("bright")
+
+import numpy as np
+from scipy.stats import kurtosis, norm 
+
+np.set_printoptions(precision=4)
+
+from empiricaldist import Cdf
+
+
+version = "v12"
+
+algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
+              'fcsh-1.1', 'fcsh-2', ]
+algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
+algo_names = ['lucb_p', 'lucb_t4', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb_t0']
+# algo_names = ['fcsh-1.01']
+# algo_names = ['lucb']
+# algo_names = ['tstci']
+# algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
+# algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
+
+# colors = ['g','r', 'y', 'b', 'orange']
+colors = ['g','r', 'y', 'b', 'orange', 'purple']
+
+max_iter = 999999
+n_trials = 1000000
+
+
+def make_model(sample, size=1000):
+    mu = np.mean(sample)
+    sigma = np.std(sample, ddof=1)
+    model = norm(mu, sigma)
+
+    xs = np.linspace(np.min(sample), np.max(sample), size)
+    ys = model.cdf(xs)
+
+    return xs, ys
+
+algo_name = algo_names[0]
+part_idxes = [3, 5, 6, 7]
+for algo_idx, part_idx in enumerate(part_idxes):
+
+    filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}_{part_idx}.txt"
+    all_stopping_times = np.loadtxt(filename)
+    # all_stopping_times = all_stopping_times[:10000]
+    print(len(all_stopping_times))
+     
+    if algo_name == 'lucb':
+        algo_name = 'LUCB1'
+    elif algo_name == 'tstci':
+        algo_name = 'TS-TCI'
+    elif algo_name == 'fcsh-1.01' or algo_name == 'fcsh-1.1':
+        algo_name = 'FC-DSH'
+
+    # print(all_stopping_times)
+    # stop
+    all_stopping_times -= np.mean(all_stopping_times)
+    std = np.std(all_stopping_times, ddof=1)
+    sorted_samples = np.sort(all_stopping_times)
+    # _norm = norm(loc=0, scale=1)
+    cdf = np.arange(1, len(sorted_samples) + 1) / len(sorted_samples)
+    res = np.log(1 - cdf)
+    _sorted_samples = sorted_samples[res != -np.inf]
+    _cdf = cdf[res != -np.inf]
+    _res = res[res != -np.inf]
+    # print(res[-10:])
+    # print(res[res!=-np.inf][-10:])
+    # stop
+
+    # res = norm.logsf(sorted_samples, loc=0, scale=std)
+    # res = norm.cdf(sorted_samples)
+    # print(len(res))
+    _xlog = np.log(_sorted_samples)
+    # plt.plot(x[x> 6], res[x> 6], label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(x, res, label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(sorted_samples[res!=-np.inf], res[res!=-np.inf],
+    #          label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(_xlog[_xlog > 9], _res[_xlog > 9],
+    #          label=f"{algo_name}", color=colors[algo_idx])
+    plt.plot(_xlog, _res,
+             label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(sorted_samples, cdf,
+    #          label=f"{algo_name}", color=colors[algo_idx])
+    # plt.show()
+    # stop
+
+    # cdf = Cdf.from_seq(all_stopping_times)
+    # print(cdf.shape)
+    # print()
+    # # print(cdf)
+    # print(len(np.array(cdf)))
+    # print(len(np.array(cdf[:10])))
+    # print(cdf[:10])
+    # cdf.plot(label=f"{algo_name}", color=colors[algo_idx])
+    # res = np.log(1-cdf)
+    
+    # print(all_stopping_times[:50])
+    # print(len(all_stopping_times))
+    # # print(all_stopping_times)
+    # stop
+    print(f"max = {np.max(all_stopping_times):0.4f}")
+    print(f"min = {np.min(all_stopping_times):0.4f}")
+    num_fails = np.sum(all_stopping_times == max_iter)
+    print(f"num fails = {num_fails} ({num_fails/n_trials:0.2f}%)")
+
+    # plt.hist(
+    #     all_stopping_times, bins=50,
+    #     label=f"{algo_name}", lw=3, alpha=0.5,  
+    #     color=colors[algo_idx],
+    #     edgecolor=colors[algo_idx],
+    # )
+    # plt.plot(sorted_samples, cdf, marker='.', linestyle='none',
+    #          label=f"{algo_name}", color=colors[algo_idx])
+
+# xs, ys = make_model(all_stopping_times)
+# res = np.log(1 - ys)
+# plt.plot(xs, res, color = 'gray', label='Gaussian')
+
+# # Define slope and point
+# slope = -2
+# x0, y0 = 6.0, -2  # point the line passes through
+
+# # Create a range of x values
+# x = np.linspace(6, 8, 50)
+
+# # Calculate y values using point-slope form: y - y0 = m(x - x0)
+
+
+# slope_list = [-2, -3, -4]
+# for i, slope in enumerate(slope_list):
+#     y = slope * (x - x0) + y0
+#     plt.plot(x, y, label=f"slope={slope}", color=colors[i+3])
+
+plt.xlabel('Stopping time', fontsize=13)
+plt.ylabel('CDFs', fontsize=13)
+# plt.title(f'n_rigged = {n_rigged}', fontsize=13)
+# plt.xticks(np.arange(6, 8))
+
+plt.legend(fontsize=15)
+
+# plt.savefig(f"cdf_plot_sep_{algo_name}_{n_trials}_{version}.png", format='png')
+plt.savefig(f"logcdf_plot_sep_{algo_name}_{n_trials}_{version}.png", format='png')
+# plt.savefig(f"cdf_plot_sep_{algo_name}_{version}.pdf", format='pdf')
+
+plt.show()
+
+
+
