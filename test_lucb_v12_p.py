@@ -59,7 +59,7 @@ mu_opt = 1.0
 mu_sub = 1.0 - 0.4
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
 
-n_trials = 1000
+n_trials = 1000000
 
 print(f"mus = {opt.mu}")
 print(f"num_trials = {n_trials}")
@@ -98,7 +98,7 @@ def run_trial(
 
 K = len(opt.mu)
 
-part_idx = 3
+part_idx = 2
 num_parts = 10
 n_trials_per_part = n_trials // num_parts
 start_point = n_trials_per_part*(part_idx)
