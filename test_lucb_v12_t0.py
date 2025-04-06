@@ -54,7 +54,7 @@ opt.algoseed = 29
 opt.beta = .5
 
 version = 'v12_t0'
-K = 4
+K = 3
 mu_opt = 1.0
 mu_sub = 1.0 - 0.4
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
