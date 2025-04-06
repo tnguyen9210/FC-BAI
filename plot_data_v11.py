@@ -30,7 +30,9 @@ version = "v12"
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb', 'lucb_t2', 'fcsh-1.01']
+algo_names = ['lucb', 'lucb_t2', 'lucb_t0', 'fcsh-1.01']
+algo_names = ['lucb_t0', 'fcsh-1.01']
+# algo_names = ['lucb_t0']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 

@@ -23,7 +23,7 @@ algo_names = ['se_orig']
 colors = ['skyblue', 'g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
-n_trials = 1000
+n_trials = 100000
 
 delta_list = [0.001, 0.005, 0.01, 0.025, 0.05]
 # delta_list = [0.01, 0.03, 0.05, 0.07, 0.09]
@@ -53,10 +53,13 @@ for algo_idx, algo_name in enumerate(algo_names):
     plt.plot(np.log10(delta_list), per_fails_list,
              label=f"{algo_name}", color=colors[algo_idx])
         
-plt.xlabel('Delta (in log10)', fontsize=13)
+plt.xlabel('Delta', fontsize=13)
 plt.ylabel('Percentage of failed trials (in %)', fontsize=13)
 plt.yticks(per_fails_list)
-plt.xticks(np.log10(delta_list))
+# plt.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
+x_range = [5, 4, 3, 2, 1]
+x_names = [f"10^{-x}" for x in x_range]
+plt.xticks(np.log10(delta_list), x_names)
 
 plt.legend(fontsize=15)
 plt.savefig(f"se_orig_nfails_vs_delta_{n_trials}_{version}.png", format='png')

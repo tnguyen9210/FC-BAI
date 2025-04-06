@@ -31,7 +31,7 @@ def run_trial(i_trial, K, algo, opt):
     return 
 
 
-np.random.seed(1)
+np.random.seed(2)
 
 opt = SimpleNamespace()
     
