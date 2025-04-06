@@ -48,7 +48,7 @@ opt = SimpleNamespace()
 
 opt.delta = .05
 opt.dataseed = 103
-opt.max_iter = 100000
+opt.max_iter = 1000000
 opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
@@ -59,7 +59,7 @@ mu_opt = 1.0
 mu_sub = 1.0 - 0.6
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
 
-n_trials = 1000
+n_trials = 1000000
 
 print(f"mus = {opt.mu}")
 print(f"num_trials = {n_trials}")
