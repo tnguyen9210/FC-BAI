@@ -18,7 +18,7 @@ version = "v11"
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb_t2', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb_t4', 'lucb_t2', 'tstci', 'fcsh-1.01']
 # algo_names = ['lucb', 'lucb_t0', 'lucb_t2', 'tstci', 'fcsh-1.01']
 # algo_names = ['fcsh-1.01']
 # algo_names = ['lucb']
@@ -57,7 +57,9 @@ for algo_idx, algo_name in enumerate(algo_names):
         algo_name = 'TS-TCI'
     elif algo_name == 'fcsh-1.01' or algo_name == 'fcsh-1.1':
         algo_name = 'FC-DSH'
-        
+
+    # print(all_stopping_times)
+    # stop
     all_stopping_times -= np.mean(all_stopping_times)
     std = np.std(all_stopping_times, ddof=1)
     sorted_samples = np.sort(all_stopping_times)
@@ -79,12 +81,12 @@ for algo_idx, algo_name in enumerate(algo_names):
     # plt.plot(x, res, label=f"{algo_name}", color=colors[algo_idx])
     # plt.plot(sorted_samples[res!=-np.inf], res[res!=-np.inf],
     #          label=f"{algo_name}", color=colors[algo_idx])
-    # plt.plot(_xlog[_xlog > 6], _res[_xlog > 6],
+    # plt.plot(_xlog[_xlog > 9], _res[_xlog > 9],
     #          label=f"{algo_name}", color=colors[algo_idx])
-    # plt.plot(_xlog, _res,
-    #          label=f"{algo_name}", color=colors[algo_idx])
-    plt.plot(sorted_samples, cdf,
+    plt.plot(_xlog, _res,
              label=f"{algo_name}", color=colors[algo_idx])
+    # plt.plot(sorted_samples, cdf,
+    #          label=f"{algo_name}", color=colors[algo_idx])
     # plt.show()
     # stop
 

@@ -18,18 +18,18 @@ def plot_data(samples, dist_name, idx):
     _samples_cdf = samples_cdf[samples_tail != -np.inf]
     _samples_tail = samples_tail[samples_tail != -np.inf]
 
-    plt.plot(_samples_sorted, _samples_cdf,
-             label=f"{dist_name}", color=colors[idx])
+    # plt.plot(_samples_sorted, _samples_cdf,
+    #          label=f"{dist_name}", color=colors[idx])
     
     # plt.plot(_samples_sorted, _samples_tail,
     #          label=f"{dist_name}", color=colors[idx])
     
-    # plt.hist(
-    #     samples, bins=50,
-    #     label=f"{dist_name}", lw=3, alpha=0.5,  
-    #     color=colors[idx],
-    #     edgecolor=colors[idx],
-    # )
+    plt.hist(
+        samples, bins=50,
+        label=f"{dist_name}", lw=3, alpha=0.5,  
+        color=colors[idx],
+        edgecolor=colors[idx],
+    )
 
     # plt.legend()
     # plt.show()
@@ -39,7 +39,7 @@ normal_samples = np.random.randn(n_trials)  # replace with your data array
 # t_samples = np.random.standard_t(df=4, size=1000)
 
 plot_data(normal_samples, 'normal', 4)
-df_list = [5, 6]
+df_list = [1, 2, 3]
 for idx, df in enumerate(df_list):
     print(f'df = {df}')
     t_samples = np.random.standard_t(df=df, size=n_trials)
