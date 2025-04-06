@@ -25,13 +25,13 @@ def hill_estimator(data, k):
     hill = np.mean(np.log(top_k) - np.log(x_k))
     return 1 / hill  # Tail index α
 
-version = "v11"
+version = "v12"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb', 'tstci', 'fcsh-1.01']
-algo_names = ['lucb_p']
+algo_names = ['lucb', 'lucb_p', 'tstci', 'fcsh-1.01']
+# algo_names = ['lucb_p']
 # algo_names = ['lucb', 'fcsh-1.01', 'fcsh-1.01-noreuse', 'fcsh-1.1-noreuse', 'fcsh-2-noreuse']
 # algo_names = ['tstci']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
