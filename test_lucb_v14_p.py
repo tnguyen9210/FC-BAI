@@ -56,7 +56,7 @@ opt.beta = .5
 version = 'v14_p'
 K = 4
 mu_opt = 1.0
-mu_sub = 1.0 - 0.8
+mu_sub = 0.2
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
 
 n_trials = 1000000
