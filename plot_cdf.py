@@ -29,7 +29,7 @@ algo_names = ['lucb', 'tstci', 'fcsh-1.01']
 colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
-n_trials = 100000
+n_trials = 1000
 
 
 def make_model(sample, size=1000):

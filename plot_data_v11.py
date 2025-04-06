@@ -25,21 +25,21 @@ def hill_estimator(data, k):
     hill = np.mean(np.log(top_k) - np.log(x_k))
     return 1 / hill  # Tail index α
 
-version = "v12"
+version = "v13"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
 algo_names = ['lucb', 'tstci', 'fcsh-1.01']
-algo_names = ['lucb', 'fcsh-1.01', 'fcsh-1.01-noreuse', 'fcsh-1.1-noreuse', 'fcsh-2-noreuse']
-algo_names = ['tstci']
+# algo_names = ['lucb', 'fcsh-1.01', 'fcsh-1.01-noreuse', 'fcsh-1.1-noreuse', 'fcsh-2-noreuse']
+# algo_names = ['tstci']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
 colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
-n_trials = 100000
+n_trials = 1000
 
 for algo_idx, algo_name in enumerate(algo_names):
     filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"

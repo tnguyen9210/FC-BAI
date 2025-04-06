@@ -18,7 +18,7 @@ version = "v12"
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb', 'lucb_t0', 'lucb_t2', 'tstci', 'fcsh-1.01']
 # algo_names = ['fcsh-1.01']
 # algo_names = ['lucb']
 # algo_names = ['tstci']
@@ -78,10 +78,10 @@ for algo_idx, algo_name in enumerate(algo_names):
     # plt.plot(x, res, label=f"{algo_name}", color=colors[algo_idx])
     # plt.plot(sorted_samples[res!=-np.inf], res[res!=-np.inf],
     #          label=f"{algo_name}", color=colors[algo_idx])
-    plt.plot(_xlog[_xlog > 6], _res[_xlog > 6],
-             label=f"{algo_name}", color=colors[algo_idx])
-    # plt.plot(_xlog, _res,
+    # plt.plot(_xlog[_xlog > 6], _res[_xlog > 6],
     #          label=f"{algo_name}", color=colors[algo_idx])
+    plt.plot(_xlog, _res,
+             label=f"{algo_name}", color=colors[algo_idx])
     # plt.plot(sorted_samples, cdf[cdf!=-np.inf],
     #          label=f"{algo_name}", color=colors[algo_idx])
     # plt.show()
