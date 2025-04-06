@@ -29,7 +29,7 @@ algo_names = ['lucb', 'tstci', 'fcsh-1.01']
 colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
-n_trials = 1000
+n_trials = 100000
 
 
 def make_model(sample, size=1000):
@@ -115,7 +115,7 @@ for algo_idx, algo_name in enumerate(algo_names):
 
 
 plt.xlabel('Stopping time', fontsize=13)
-plt.ylabel('CDFs', fontsize=13)
+plt.ylabel('CDF', fontsize=13)
 # plt.xticks(np.arange(6, 8))
 
 plt.legend(fontsize=15)

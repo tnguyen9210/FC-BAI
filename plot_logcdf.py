@@ -18,8 +18,8 @@ version = "v12"
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb_p', 'lucb_t4', 'tstci', 'fcsh-1.01']
-algo_names = ['lucb_t0']
+algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+# algo_names = ['lucb']
 # algo_names = ['fcsh-1.01']
 # algo_names = ['lucb']
 # algo_names = ['tstci']
@@ -30,7 +30,7 @@ algo_names = ['lucb_t0']
 colors = ['g','r', 'y', 'b', 'orange', 'purple']
 
 max_iter = 999999
-n_trials = 1000000
+n_trials = 100000
 
 
 def make_model(sample, size=1000):
@@ -137,8 +137,8 @@ for algo_idx, algo_name in enumerate(algo_names):
 #     y = slope * (x - x0) + y0
 #     plt.plot(x, y, label=f"slope={slope}", color=colors[i+3])
 
-plt.xlabel('Stopping time', fontsize=13)
-plt.ylabel('CDFs', fontsize=13)
+plt.xlabel('log(stopping time)', fontsize=13)
+plt.ylabel('log(1-cdf)', fontsize=13)
 # plt.title(f'n_rigged = {n_rigged}', fontsize=13)
 # plt.xticks(np.arange(6, 8))
 
