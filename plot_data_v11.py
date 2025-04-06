@@ -30,9 +30,8 @@ version = "v12"
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb', 'lucb_t2', 'lucb_t0', 'fcsh-1.01']
-algo_names = ['lucb_t0', 'fcsh-1.01']
-# algo_names = ['lucb_t0']
+algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['tstci']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
@@ -63,12 +62,10 @@ for algo_idx, algo_name in enumerate(algo_names):
     print(f"min = {np.min(all_stopping_times):0.4f}")
     num_fails = np.sum(all_stopping_times == max_iter)
     print(f"num fails = {num_fails} ({num_fails/n_trials:0.2f}%)")
-    # kurt = kurtosis(all_stopping_times, fisher=False)
-    # print(f"kurt = {kurt}")
-    # hill = hill_estimator(all_stopping_times, 5)
-    # print(f"hill = {hill}")
-    # all_stopping_times = np.log(all_stopping_times)
 
+    num_tails = np.sum(all_stopping_times > 5000)
+    print(f"num tails = {num_tails} ({num_tails/n_trials*100:0.2f}%)")
+    
     plt.hist(
         all_stopping_times, bins=50,
         label=f"{algo_name}", lw=3, alpha=0.5,  
