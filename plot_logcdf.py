@@ -18,7 +18,8 @@ version = "v11"
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb_t2', 'tstci', 'fcsh-1.01']
+# algo_names = ['lucb', 'lucb_t0', 'lucb_t2', 'tstci', 'fcsh-1.01']
 # algo_names = ['fcsh-1.01']
 # algo_names = ['lucb']
 # algo_names = ['tstci']
@@ -26,7 +27,7 @@ algo_names = ['lucb', 'tstci', 'fcsh-1.01']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
 # colors = ['g','r', 'y', 'b', 'orange']
-colors = ['g','r', 'y', 'b', 'orange']
+colors = ['g','r', 'y', 'b', 'orange', 'purple']
 
 max_iter = 999999
 n_trials = 1000
@@ -80,10 +81,10 @@ for algo_idx, algo_name in enumerate(algo_names):
     #          label=f"{algo_name}", color=colors[algo_idx])
     # plt.plot(_xlog[_xlog > 6], _res[_xlog > 6],
     #          label=f"{algo_name}", color=colors[algo_idx])
-    plt.plot(_xlog, _res,
-             label=f"{algo_name}", color=colors[algo_idx])
-    # plt.plot(sorted_samples, cdf[cdf!=-np.inf],
+    # plt.plot(_xlog, _res,
     #          label=f"{algo_name}", color=colors[algo_idx])
+    plt.plot(sorted_samples, cdf,
+             label=f"{algo_name}", color=colors[algo_idx])
     # plt.show()
     # stop
 
@@ -119,6 +120,20 @@ for algo_idx, algo_name in enumerate(algo_names):
 # res = np.log(1 - ys)
 # plt.plot(xs, res, color = 'gray', label='Gaussian')
 
+# # Define slope and point
+# slope = -2
+# x0, y0 = 6.0, -2  # point the line passes through
+
+# # Create a range of x values
+# x = np.linspace(6, 8, 50)
+
+# # Calculate y values using point-slope form: y - y0 = m(x - x0)
+
+
+# slope_list = [-2, -3, -4]
+# for i, slope in enumerate(slope_list):
+#     y = slope * (x - x0) + y0
+#     plt.plot(x, y, label=f"slope={slope}", color=colors[i+3])
 
 plt.xlabel('Stopping time', fontsize=13)
 plt.ylabel('CDFs', fontsize=13)

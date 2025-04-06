@@ -31,6 +31,7 @@ algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
 algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb_t2', 'tstci', 'fcsh-1.01']
 # algo_names = ['lucb', 'fcsh-1.01', 'fcsh-1.01-noreuse', 'fcsh-1.1-noreuse', 'fcsh-2-noreuse']
 # algo_names = ['tstci']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
