@@ -98,7 +98,7 @@ def run_trial(
 
 K = len(opt.mu)
 
-part_idx = 6
+part_idx = 5
 num_parts = 10
 n_trials_per_part = n_trials // num_parts
 start_point = n_trials_per_part*(part_idx)
