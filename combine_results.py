@@ -1,11 +1,12 @@
 
 import numpy as np
 
-algo_name = 'lucb_t0'
+algo_name = 'lucb_p'
 version = 'v12'
 n_trials = 1000000
 
-part_idxes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+part_idxes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+# part_idxes = [3, 4, 5, 6, 7, 9]
 all_stop_times = []
 for part_idx in part_idxes:
     filename = f"final_results/all_stop_times_{algo_name}_{n_trials}_{version}_{part_idx}.txt"

@@ -2,6 +2,11 @@
 import numpy as np
 import random 
 import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_style("ticks")
+sns.set_palette("tab20")
+colors = sns.color_palette("bright")
+colors = sns.color_palette("Paired", 12)
 
 from empiricaldist import Cdf
 
@@ -39,7 +44,7 @@ normal_samples = np.random.randn(n_trials)  # replace with your data array
 # t_samples = np.random.standard_t(df=4, size=1000)
 
 plot_data(normal_samples, 'normal', 4)
-df_list = [1, 2, 3]
+df_list = [1, 2, 3, 4, 5, 6]
 for idx, df in enumerate(df_list):
     print(f'df = {df}')
     t_samples = np.random.standard_t(df=df, size=n_trials)
