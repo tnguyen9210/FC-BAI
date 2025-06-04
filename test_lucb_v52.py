@@ -52,11 +52,12 @@ opt.max_iter = 1000000000
 opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
+opt.n_rigged = 5
 
-version = 'v44'
-K = 32
+version = 'v52'
+K = 16
 mu_opt = 1.0
-mu_sub = 1.0 - 0.2
+mu_sub = 1.0 - 0.4
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
 
 n_trials = 1000
@@ -88,8 +89,8 @@ def run_trial(
     algo = algo_factory_fc(
         algo_name, K, opt.algoseed + i_trial, opt.sigma_sq, opt.beta, opt.delta)
     
-    tau, is_top = run_bandit_lucb(
-        algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
+    tau, is_top = run_bandit_lucb_v21(
+        algo, env, opt.delta, opt.max_iter, opt.sigma_sq, opt.n_rigged)
     # print(tau)
     
     all_stop_times.append(tau)
@@ -98,22 +99,27 @@ def run_trial(
 
 K = len(opt.mu)
 
+n_rigged_list = [5, 10, 25, 50]
+n_rigged_list = [15, 20]
 for (i_algo, algo_name) in enumerate(algo_names):
     print(f"\n-> algo_name = {algo_name}")
+    for (_, n_rigged) in enumerate(n_rigged_list):
+        print(f"-> n_rigged = {n_rigged}")
+        opt.n_rigged = n_rigged
 
-    trial_args = [(i_trial, K, algo_name, opt) for i_trial in range(n_trials)]
+        trial_args = [(i_trial, K, algo_name, opt) for i_trial in range(n_trials)]
     
-    start_time = time.time()
-    pool = mp.Pool()
-    pool.starmap(run_trial, trial_args)
-    pool.close()
+        start_time = time.time()
+        pool = mp.Pool()
+        pool.starmap(run_trial, trial_args)
+        pool.close()
     
-    total_time = time.time() - start_time
-    print(f"it takes {total_time:0.4f}s")
-    print(f"it takes {total_time/(n_trials+1):0.4f}s per trial")
+        total_time = time.time() - start_time
+        print(f"it takes {total_time:0.4f}s")
+        print(f"it takes {total_time/(n_trials+1):0.4f}s per trial")
     
-    all_stop_times = np.array(all_stop_times)
-    filename = f"results/all_stop_times_{algo_name}_{n_trials}_{version}.txt"
-    np.savetxt(filename, all_stop_times)
+        filename = f"results/all_stop_times_{algo_name}_{n_trials}_{version}_{opt.n_rigged}.txt"
+        np.savetxt(filename, np.array(all_stop_times))
 
+        all_stop_times[:] = []
 
