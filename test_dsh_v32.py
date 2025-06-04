@@ -24,12 +24,6 @@ def algo_factory_fc(algo_name, K, seed, sigma_sq, beta, delta):
         algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.05, divisor=2)
     elif algo_name == 'fcsh-1.01':
         algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.01, divisor=2)
-    elif algo_name == 'fcsh-1.01-noreuse':
-        algo = FCDoublingSequentialHalvingNoReuse(K, seed=seed, factor=1.01, divisor=2)
-    elif algo_name == 'fcsh-1.1-noreuse':
-        algo = FCDoublingSequentialHalvingNoReuse(K, seed=seed, factor=1.1, divisor=2)
-    elif algo_name == 'fcsh-2-noreuse':
-        algo = FCDoublingSequentialHalvingNoReuse(K, seed=seed, factor=2, divisor=2)
     elif algo_name == 'fcsh-1.01-d1.01':
         algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.01, divisor=1.01)
     elif algo_name == 'fcsh-1.01-d2.5':
@@ -59,8 +53,8 @@ opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
 
-version = 'v12'
-K = 4
+version = 'v32'
+K = 8
 mu_opt = 1.0
 mu_sub = 1.0 - 0.4
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
@@ -71,7 +65,7 @@ print(f"mus = {opt.mu}")
 print(f"num_trials = {n_trials}")
 
 # algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
-algo_names = ['fcsh-1.01-noreuse', 'fcsh-1.1-noreuse', 'fcsh-2-noreuse']
+algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 # algo_names = ['lucb']
 
 emax_mat = np.zeros((len(algo_names), n_trials))
@@ -94,7 +88,7 @@ def run_trial(
     algo = algo_factory_fc(
         algo_name, K, opt.algoseed + i_trial, opt.sigma_sq, opt.beta, opt.delta)
     
-    tau, is_top = run_bandit_pe_v31(
+    tau, is_top = run_bandit_pe(
         algo, env, opt.delta, opt.max_iter, opt.sigma_sq)
     # print(tau)
     
