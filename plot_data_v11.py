@@ -25,14 +25,14 @@ def hill_estimator(data, k):
     hill = np.mean(np.log(top_k) - np.log(x_k))
     return 1 / hill  # Tail index α
 
-version = "v31"
+version = "v44"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
 # algo_names = ['lucb', 'lucb_p', 'tstci', 'fcsh-1.01']
-# algo_names = ['tstci', 'fcsh-1.01']
-algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['tstci', 'fcsh-1.01']
+# algo_names = ['lucb', 'tstci', 'fcsh-1.01']
 # algo_names = ['lucb_p']
 # algo_names = ['lucb', 'fcsh-1.01', 'fcsh-1.01-noreuse', 'fcsh-1.1-noreuse', 'fcsh-2-noreuse']
 # algo_names = ['tstci']
@@ -54,8 +54,8 @@ for algo_idx, algo_name in enumerate(algo_names):
         algo_name = 'LUCB1'
     elif algo_name == 'tstci':
         algo_name = 'TS-TCI'
-    # elif algo_name == 'fcsh-1.01' or algo_name == 'fcsh-1.1':
-    #     algo_name = 'FC-DSH'
+    elif algo_name == 'fcsh-1.01' or algo_name == 'fcsh-1.1':
+        algo_name = 'FC-DSH'
     # elif algo_name == 'fcsh-1.01-noreuse' or algo_name == 'fcsh-2-noreuse':
     #     algo_name = 'FC-DSH-no-reuse'
     # print(all_stopping_times[:50])
