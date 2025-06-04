@@ -1,7 +1,7 @@
 
 import numpy as np
 
-algo_name = 'lucb_p'
+algo_name = 'lucb'
 version = 'v12'
 n_trials = 1000000
 

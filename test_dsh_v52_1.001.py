@@ -36,6 +36,8 @@ def algo_factory_fc(algo_name, K, seed, sigma_sq, beta, delta):
         algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.01, divisor=4)
     elif algo_name == 'fcsh-1.01-d5':
         algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.01, divisor=5)
+    elif algo_name == 'fcsh-1.001-d5':
+        algo = FCDoublingSequentialHalving(K, seed=seed, factor=1.001, divisor=5)
     elif algo_name == 'tstci':
         algo = FCTsTci(K, beta, sigma_sq, seed)
     elif algo_name == "lucb":
@@ -69,7 +71,7 @@ print(f"num_trials = {n_trials}")
 # algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 # algo_names = ['fcsh-1.01-d1.01']
-algo_names = ['fcsh-1.01-d3', 'fcsh-1.01-d4']
+algo_names = ['fcsh-1.001-d5']
 # algo_names = ['lucb']
 
 emax_mat = np.zeros((len(algo_names), n_trials))
