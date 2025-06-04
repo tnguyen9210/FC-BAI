@@ -65,7 +65,8 @@ print(f"mus = {opt.mu}")
 print(f"num_trials = {n_trials}")
 
 # algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
-algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
+# algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
+algo_names = ['fcsh-1.01']
 # algo_names = ['lucb']
 
 emax_mat = np.zeros((len(algo_names), n_trials))
