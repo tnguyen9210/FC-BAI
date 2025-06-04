@@ -25,11 +25,12 @@ def hill_estimator(data, k):
     hill = np.mean(np.log(top_k) - np.log(x_k))
     return 1 / hill  # Tail index α
 
-version = "v52"
+version = "v12"
 
 # algo_names = ['tstci', 'fcsh-1.01']
 algo_names = ['lucb', 'tstci', 'fcsh-1.01']
-algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.001']
+# algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.001', 'fcsh-1.01-d1.01']
+# algo_names = ['lucb', 'tstci', 'fcsh-1.01-d3', 'fcsh-1.01-d4']
 
 colors = ['g','r', 'y', 'b', 'orange']
 
@@ -64,7 +65,7 @@ for algo_idx, algo_name in enumerate(algo_names):
     
     plt.hist(
         all_stopping_times, bins=50,
-        label=f"{algo_name}", lw=3, alpha=0.5,  
+        label=f"{algo_name}", lw=3, alpha=0.7,  
         color=colors[algo_idx],
         edgecolor=colors[algo_idx],
     )

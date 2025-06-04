@@ -19,9 +19,9 @@ version = "v12"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
-algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
-algo_names = ['lucb_p', 'lucb_t4', 'tstci', 'fcsh-1.01']
-algo_names = ['lucb_t0']
+algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+# algo_names = ['lucb_p', 'lucb_t4', 'tstci', 'fcsh-1.01']
+# algo_names = ['lucb_t0']
 # algo_names = ['lucb_p']
 # algo_names = ['fcsh-1.01']
 # algo_names = ['lucb']
@@ -64,7 +64,7 @@ def plot_data(samples, dist_name, idx):
     
 algo_name = algo_names[0]
 part_idxes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-part_idxes = [0, 1, 2, '2a', 3, 4, 5, 6, 7, 8, 9]
+# part_idxes = [0, 1, 2, '2a', 3, 4, 5, 6, 7, 8, 9]
 # part_idxes = [4, 5, 7, 9]
 all_stop_times_combined = []
 checks = []

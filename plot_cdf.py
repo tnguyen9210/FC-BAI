@@ -13,7 +13,7 @@ np.set_printoptions(precision=4)
 from empiricaldist import Cdf
 
 
-version = "v52"
+version = "v12"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
@@ -29,7 +29,7 @@ algo_names = ['lucb', 'tstci', 'fcsh-1.01']
 colors = ['g','r', 'y', 'b', 'orange']
 
 max_iter = 999999
-n_trials = 1000
+n_trials = 100000
 
 
 def make_model(sample, size=1000):
@@ -57,7 +57,7 @@ for algo_idx, algo_name in enumerate(algo_names):
     elif algo_name == 'fcsh-1.01' or algo_name == 'fcsh-1.1':
         algo_name = 'FC-DSH'
         
-    # all_stopping_times -= np.mean(all_stopping_times)
+    all_stopping_times -= np.mean(all_stopping_times)
     std = np.std(all_stopping_times, ddof=1)
     sorted_samples = np.sort(all_stopping_times)
     cdf = np.arange(1, len(sorted_samples) + 1) / len(sorted_samples)
@@ -77,7 +77,8 @@ plt.ylabel('CDF', fontsize=13)
 plt.legend(fontsize=15)
 
 # plt.savefig(f"figures/plot_cdf_sep_centered_{n_trials}_{version}.png", format='png')
-plt.savefig(f"figures/plot_cdf_sep_{n_trials}_{version}.pdf", format='pdf')
+# plt.savefig(f"figures/plot_cdf_sep_{n_trials}_{version}.pdf", format='pdf')
+plt.savefig(f"figures/plot_cdf_sep_centered_{n_trials}_{version}.pdf", format='pdf')
 
 plt.show()
 
