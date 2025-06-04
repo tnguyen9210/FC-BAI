@@ -13,23 +13,24 @@ np.set_printoptions(precision=4)
 from empiricaldist import Cdf
 
 
-version = "v32"
+version = "v12"
 
 algo_names = ['se_orig', 'se_t4', 'lucb', 'tstci', 'fcsh-1.01',
               'fcsh-1.1', 'fcsh-2', ]
 algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
 algo_names = ['lucb', 'tstci', 'fcsh-1.01']
-algo_names = ['lucb', 'tstci', 'fcsh-1.01']
+algo_names = ['lucb_p', 'tstci', 'fcsh-1.01']
 # algo_names = ['fcsh-1.01']
 # algo_names = ['lucb']
 # algo_names = ['tstci']
 # algo_names = ['lucb', 'tstci', 'fcsh-1.1', 'se_t4']
 # algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
 
+# colors = ['g','r', 'y', 'b', 'orange']
 colors = ['g','r', 'y', 'b', 'orange', 'purple']
 
 max_iter = 999999
-n_trials = 1000
+n_trials = 1000000
 
 def plot_data(samples, dist_name, idx):
     samples -= np.mean(samples)
@@ -150,7 +151,7 @@ plt.xlabel('Stopping time', fontsize=13)
 plt.legend(fontsize=15)
 
 # plt.savefig(f"plot_logcdf_plot_sep_{n_trials}_{version}.png", format='png')
-plt.savefig(f"figures/plot_logcdf_plot_sep_{n_trials}_{version}.pdf", format='pdf')
+plt.savefig(f"plot_logcdf_plot_sep_{n_trials}_{version}.pdf", format='pdf')
 
 plt.show()
 
