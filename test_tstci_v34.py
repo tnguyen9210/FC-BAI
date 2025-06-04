@@ -53,10 +53,10 @@ opt.sigma_sq = 1.0 ** 2
 opt.algoseed = 29
 opt.beta = .5
 
-version = 'v31'
+version = 'v34'
 K = 8
 mu_opt = 1.0
-mu_sub = 1.0 - 0.1
+mu_sub = 1.0 - 0.2
 opt.mu = [mu_opt] + [mu_sub]*(K-1)
 
 n_trials = 1000
@@ -65,8 +65,8 @@ print(f"mus = {opt.mu}")
 print(f"num_trials = {n_trials}")
 
 # algo_names = ['tstci', 'fcsh-2', 'fcsh-1.5', 'fcsh-1.01']
-algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
-# algo_names = ['lucb']
+# algo_names = ['fcsh-1.01', 'fcsh-1.1', 'fcsh-2']
+algo_names = ['tstci']
 
 emax_mat = np.zeros((len(algo_names), n_trials))
 best_arm_mat = np.zeros((len(algo_names), n_trials)) 
