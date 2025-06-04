@@ -29,7 +29,7 @@ version = "v52"
 
 # algo_names = ['tstci', 'fcsh-1.01']
 algo_names = ['lucb', 'tstci', 'fcsh-1.01']
-# algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.1']
+algo_names = ['lucb', 'tstci', 'fcsh-1.01', 'fcsh-1.001']
 
 colors = ['g','r', 'y', 'b', 'orange']
 
